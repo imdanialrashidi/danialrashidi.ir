@@ -1,0 +1,197 @@
+---
+import "../styles/global.css";
+import "@fontsource/vazirmatn/400.css";
+import "@fontsource/vazirmatn/500.css";
+import "@fontsource/vazirmatn/700.css";
+import "@fontsource/vazirmatn/800.css";
+import { ClientRouter } from "astro:transitions";
+import Masthead from "../components/Masthead.astro";
+import Footer from "../components/Footer.astro";
+import { SITE, PROFILE } from "../config/site";
+
+type Props = {
+  title: string;
+  description?: string;
+  path?: string;
+  noindex?: boolean;
+  ogType?: "website" | "article";
+};
+
+const { title, description = SITE.description, path = "/", noindex = false, ogType = "website" } = Astro.props;
+const canonical = new URL(path, SITE.domain).toString();
+const ogImage = new URL(SITE.ogImage, SITE.domain).toString();
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE.latinName,
+    alternateName: SITE.name,
+    url: SITE.domain,
+    image: new URL(PROFILE.photoSrc, SITE.domain).toString(),
+    jobTitle: "Software and product builder",
+    homeLocation: PROFILE.location,
+    sameAs: [SITE.github, SITE.x, SITE.instagram, SITE.telegram, SITE.englishSite],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.domain,
+    inLanguage: SITE.lang,
+  },
+];
+const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} | ${SITE.name}`;
+---
+
+<!doctype html>
+<html lang={SITE.lang} dir={SITE.dir} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="author" content={SITE.latinName} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="fa_IR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={PROFILE.photoAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+    <ClientRouter />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#FAF7F1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131511" media="(prefers-color-scheme: dark)" />
+
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem("dr-theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = saved === "dark" || (!saved && prefersDark) ? "dark" : "light";
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+  </head>
+  <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded focus:px-4 focus:py-2"
+      style="background: var(--action); color: var(--on-action);"
+    >
+      پرش به محتوا
+    </a>
+    <Masthead path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      // Shared UI behavior — safe across Astro view-transition swaps.
+      // The document (and its listeners) survives swaps; each new page
+      // re-executes this script, so registration is guarded and page-scoped
+      // state (reveal observer, toggle pressed-state) re-inits every time.
+      function drApplySavedTheme() {
+        // View-transition swaps bring in the incoming page's <html> attributes
+        // (SSR default data-theme="light"), so re-assert the saved choice.
+        try {
+          var saved = localStorage.getItem("dr-theme");
+          if (saved === "dark" || saved === "light") {
+            document.documentElement.dataset.theme = saved;
+            return;
+          }
+        } catch {}
+      }
+      function drSyncThemeToggle() {
+        var dark = document.documentElement.dataset.theme === "dark";
+        document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+          btn.setAttribute("aria-pressed", String(dark));
+          var label = btn.querySelector("[data-theme-label]");
+          if (label) label.textContent = dark ? "روشن" : "تیره";
+        });
+      }
+      function drReveal() {
+        var els = document.querySelectorAll(".reveal:not(.is-visible)");
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce || !("IntersectionObserver" in window)) {
+          els.forEach(function (el) { el.classList.add("is-visible"); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+        els.forEach(function (el) { io.observe(el); });
+      }
+      function drInit() {
+        drApplySavedTheme();
+        drSyncThemeToggle();
+        drReveal();
+      }
+      // Theme toggle + mobile menu + card copy — the only client JS on the site (~2KB).
+      if (!window.__drBound) {
+        window.__drBound = true;
+        document.addEventListener("astro:page-load", drInit);
+        document.addEventListener("click", (event) => {
+        const toggle = event.target instanceof Element ? event.target.closest("[data-theme-toggle]") : null;
+        if (toggle) {
+          const root = document.documentElement;
+          const next = root.dataset.theme === "dark" ? "light" : "dark";
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem("dr-theme", next);
+          } catch {}
+          toggle.setAttribute("aria-pressed", String(next === "dark"));
+          const label = toggle.querySelector("[data-theme-label]");
+          if (label) label.textContent = next === "dark" ? "روشن" : "تیره";
+          return;
+        }
+        const menuBtn = event.target instanceof Element ? event.target.closest("[data-menu-button]") : null;
+        if (menuBtn) {
+          const open = menuBtn.getAttribute("aria-expanded") === "true";
+          menuBtn.setAttribute("aria-expanded", String(!open));
+          document.getElementById("mobile-menu")?.classList.toggle("hidden", open);
+          return;
+        }
+        const copyBtn = event.target instanceof Element ? event.target.closest("[data-copy-card]") : null;
+        if (copyBtn) {
+          const digits = copyBtn.getAttribute("data-copy-card") || "";
+          const done = () => {
+            const label = copyBtn.querySelector("[data-copy-label]");
+            if (label) label.textContent = "کپی شد ✓";
+            const card = copyBtn.closest(".card-block");
+            const status = card ? card.querySelector("[data-copy-status]") : null;
+            if (status) status.textContent = "شماره کارت در حافظه است — موقع انتقال، نام و مبلغ را دوباره چک کنید.";
+            window.setTimeout(() => { if (label) label.textContent = "کپی شماره"; }, 2500);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(digits).then(done).catch(() => {
+              window.prompt("کپی دستی شماره کارت:", digits);
+            });
+          } else {
+            window.prompt("کپی دستی شماره کارت:", digits);
+          }
+        }
+        });
+      }
+      drInit();
+    </script>
+  </body>
+</html>

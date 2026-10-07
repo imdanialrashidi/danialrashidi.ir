@@ -1,0 +1,21 @@
+---
+import Base from "../../layouts/Base.astro";
+import SupportPanel from "../../components/SupportPanel.astro";
+---
+
+<Base path="/حمایت/" title="حمایت از پروژه‌ها" description="اگر یکی از پروژه‌های دانیال رشیدی به دردتان خورد و دوست داشتید در ادامه‌ی ساخت و نگه‌داری‌اش سهیم باشید — بی‌سر و صدا و بدون اصرار.">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="pb-8 pt-12 md:pt-16" aria-labelledby="support-title">
+      <p class="font-mono text-sm" style="color: var(--accent);">حمایت — مقصد فرعی</p>
+      <h1 id="support-title" class="mt-4 text-4xl font-extrabold sm:text-5xl">حمایت از پروژه‌ها</h1>
+      <p class="mt-4 max-w-2xl text-lg leading-9">
+        این پروژه‌ها را مستقل جلو می‌برم؛ هزینه‌ی ساخت و نگه‌داری با خودم است.
+        اگر کاری به دردتان خورد و دوست داشتید در ادامه‌اش سهیم باشید، ممنون می‌شوم —
+        همین که استفاده می‌کنید خودش حمایت است.
+      </p>
+    </section>
+    <section class="pb-10" aria-label="راه‌های حمایت">
+      <SupportPanel />
+    </section>
+  </div>
+</Base>

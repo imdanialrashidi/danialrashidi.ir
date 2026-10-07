@@ -1,0 +1,90 @@
+---
+import { SUPPORT_METHODS, SUPPORT_CARD, isSupportCardConfigured, formatCardNumber } from "../config/support";
+import { SITE } from "../config/site";
+
+const cardConfigured = isSupportCardConfigured(SUPPORT_CARD);
+const formatted = cardConfigured ? formatCardNumber(SUPPORT_CARD.number) : "";
+const digits = SUPPORT_CARD.number.replace(/\D/g, "");
+---
+
+<div class="reveal rounded-xl border p-6 sm:p-8" style="border-color: var(--border); background: var(--surface);">
+  {
+    !cardConfigured && SUPPORT_METHODS.length === 0 ? (
+      <div>
+        <p class="text-lg font-bold">این صفحه هنوز راه پرداخت ندارد</p>
+        <p class="mt-2 max-w-2xl" style="color: var(--muted);">
+          اگر دوست داشته باشید از ادامه‌ی ساخت و نگه‌داری پروژه‌ها حمایت کنید، فعلاً بهترین راه پیام مستقیم است.
+          شماره کارت یا لینک پرداختی این‌جا نمی‌گذارم مگر این‌که واقعی و متعلق به خودم باشد.
+        </p>
+        <p class="mt-5 flex flex-wrap gap-4">
+          <a
+            href={SITE.telegram}
+            target="_blank"
+            rel="me noopener"
+            class="btn-primary inline-flex min-h-12 items-center rounded-lg px-6 font-bold"
+            style="background: var(--action); color: var(--on-action);"
+          >
+            پیام در تلگرام
+          </a>
+          <a href="/ارتباط/" class="quiet-link inline-flex min-h-12 items-center">
+            صفحه‌ی ارتباط ←
+          </a>
+        </p>
+      </div>
+    ) : (
+      <div>
+        {cardConfigured && (
+          <div class="card-block" aria-label="حمایت با کارت بانکی">
+            <p class="flex items-center gap-2 text-lg font-bold">
+              <span aria-hidden="true" class="grid size-9 place-items-center rounded-lg" style="background: var(--action); color: var(--on-action);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
+              </span>
+              حمایت با کارت
+            </p>
+            <div class="mt-4 rounded-lg border p-5" style="border-color: var(--border); background: var(--canvas);">
+              <p class="font-mono text-xs" style="color: var(--muted);">شماره کارت{SUPPORT_CARD.bank ? ` · ${SUPPORT_CARD.bank}` : ""}</p>
+              <p class="mt-2 flex flex-wrap items-center justify-between gap-3">
+                <span dir="ltr" class="font-mono text-xl font-extrabold tracking-wider sm:text-2xl" style="letter-spacing: 0.08em;">{formatted}</span>
+                <button
+                  type="button"
+                  data-copy-card={digits}
+                  class="btn-primary inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 text-sm font-bold"
+                  style="border-color: var(--border);"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-4" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span data-copy-label>کپی شماره</span>
+                </button>
+              </p>
+              {SUPPORT_CARD.holder && (
+                <p class="mt-2 text-sm" style="color: var(--muted);">به نام {SUPPORT_CARD.holder}</p>
+              )}
+              <p class="mt-1 text-xs" style="color: var(--muted);" data-copy-status role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        )}
+        {SUPPORT_METHODS.length > 0 && (
+          <div class={cardConfigured ? "mt-8" : ""}>
+            <p class="text-lg font-bold">راه‌های دیگر حمایت</p>
+            <ul class="mt-4 space-y-4">
+              {SUPPORT_METHODS.map((method) => (
+                <li class="border-t pt-4" style="border-color: var(--border);">
+                  <a href={method.href} target="_blank" rel="noopener" class="text-lg font-bold quiet-link">
+                    {method.label} ↗
+                  </a>
+                  {method.note && (
+                    <p class="mt-1 text-sm" style="color: var(--muted);">{method.note}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <p class="mt-6 text-sm" style="color: var(--muted);">
+          ممنون که استفاده می‌کنید — همین خودش حمایت است. اگر کارت مشکل داشت، در
+          <a class="quiet-link" href={SITE.telegram} target="_blank" rel="me noopener"> تلگرام </a>
+          بگویید. — دانیال
+        </p>
+      </div>
+    )
+  }
+</div>

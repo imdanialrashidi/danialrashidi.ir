@@ -1,0 +1,13 @@
+---
+/* Signature masthead — the single signature device. */
+type Props = { size?: "hero" | "small" };
+const { size = "hero" } = Astro.props as Props;
+const cls = size === "hero" ? "text-[clamp(2.8rem,8vw,4.6rem)]" : "text-3xl";
+---
+
+<div>
+  <p class={`panel-mono font-extrabold leading-[1.2] ${cls}`}>دانیال رشیدی</p>
+  <svg class="signature-stroke" viewBox="0 0 320 10" aria-hidden="true" focusable="false">
+    <path d="M4 7 C 80 2, 200 2, 316 6" />
+  </svg>
+</div>

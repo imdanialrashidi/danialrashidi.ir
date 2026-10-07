@@ -1,0 +1,47 @@
+---
+import Base from "../../layouts/Base.astro";
+import SocialIcons from "../../components/SocialIcons.astro";
+import { SITE, PROFILE } from "../../config/site";
+
+const rows = [
+  { label: "ایمیل — سریع‌ترین راه", value: SITE.email, href: `mailto:${SITE.email}`, ltr: true },
+  { label: "تلگرام", value: SITE.telegramHandle, href: SITE.telegram, ltr: true },
+  { label: "گیت‌هاب", value: `github.com/${SITE.githubHandle}`, href: SITE.github, ltr: true },
+  { label: "اینستاگرام", value: SITE.instagramHandle, href: SITE.instagram, ltr: true },
+  { label: "ایکس", value: SITE.xHandle, href: SITE.x, ltr: true },
+  { label: "وب انگلیسی", value: SITE.englishLabel, href: SITE.englishSite, ltr: true },
+];
+---
+
+<Base path="/ارتباط/" title="ارتباط با دانیال رشیدی" description="برای سفارش پروژه، همکاری محصولی یا فقط سلام: ایمیل، تلگرام، گیت‌هاب و اینستاگرام دانیال رشیدی — بدون فرم، مستقیم و معمولاً یکی دو روزه.">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="pb-8 pt-12 md:pt-16" aria-labelledby="contact-title">
+      <p class="hero-enter font-mono text-sm" style="color: var(--accent);">بدون فرم · بدون ردیاب · مستقیم · {PROFILE.availability}</p>
+      <h1 id="contact-title" class="hero-enter mt-4 text-4xl font-extrabold sm:text-5xl" style="--reveal-delay: 80ms;">بیایید چیزی مفید بسازیم</h1>
+      <p class="hero-enter mt-4 max-w-2xl text-lg leading-9" style="--reveal-delay: 160ms;">
+        برای پروژه‌های نرم‌افزاری، همکاری محصولی و فرصت‌های فنی بازم —
+        مخصوصاً وقتی ایده‌ای مبهم نیاز به یک سیستمِ در حال کار دارد.
+        {PROFILE.availabilityNote}.
+      </p>
+      <div class="hero-enter mt-6" style="--reveal-delay: 240ms;">
+        <SocialIcons />
+      </div>
+    </section>
+
+    <section class="pb-10" aria-label="راه‌های ارتباط">
+      <ul class="divide-y" style="border-color: var(--border);">
+        {
+          rows.map((row) => (
+            <li class="reveal grid gap-1 py-5 sm:grid-cols-[200px_1fr] sm:items-baseline">
+              <p class="text-sm font-bold" style="color: var(--muted);">{row.label}</p>
+              <a href={row.href} target={row.href.startsWith("mailto:") ? undefined : "_blank"} rel="me noopener" class:list={["quiet-link inline-flex min-h-11 items-center font-bold", row.ltr && "ltr font-mono"]}>
+                {row.value} {row.href.startsWith("mailto:") ? "→" : "↗"}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-4" style="color: var(--muted);">معمولاً یکی دو روزه جواب می‌دهم. — دانیال</p>
+    </section>
+  </div>
+</Base>

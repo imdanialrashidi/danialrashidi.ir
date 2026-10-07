@@ -1,0 +1,197 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Vazirmatn is self-hosted via @fontsource/vazirmatn (weights 400/500/700/800),
+   imported in src/layouts/Base.astro. Fallback below preserves metrics offline. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.9;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--action);
+  color: var(--on-action);
+}
+
+/* Signature underline draw — the one orchestrated moment */
+.signature-stroke {
+  display: block;
+  width: min(320px, 60%);
+  height: 10px;
+  margin-block-start: 0.35rem;
+}
+
+.signature-stroke path {
+  stroke: var(--accent);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw-stroke var(--dur-slow) var(--ease-out) 0.25s forwards;
+}
+
+@keyframes draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Quiet link: underline that grows */
+.quiet-link {
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition:
+    text-decoration-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.quiet-link:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Same-document view transitions (ClientRouter): soft fade, no loading flash */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* Visible focus everywhere */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hairline editorial rule with margin index */
+.section-rule {
+  border-block-start: 1px solid var(--border);
+}
+
+/* Photo frame: border + offset paper shadow (light only) */
+.photo-frame {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+[data-theme="light"] .photo-frame,
+:root:not([data-theme="dark"]) .photo-frame {
+  box-shadow: 12px 12px 0 0 var(--frame-shadow);
+}
+
+/* Entrance + scroll reveal — staggered, once, GPU-cheap */
+.hero-enter {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in 700ms var(--ease-out) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible,
+.hero-enter.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes rise-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Buttons lift a touch — feedback without noise */
+.btn-primary {
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    filter var(--dur-fast) var(--ease-out);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Photo frames breathe on hover */
+.photo-frame {
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+a.photo-frame:hover {
+  transform: translateY(-3px);
+}
+
+.row-thumb {
+  border-radius: 8px;
+}
+
+/* Typographic placeholder panels — honest, no fabricated UI */
+.panel-mono {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .signature-stroke path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .hero-enter,
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

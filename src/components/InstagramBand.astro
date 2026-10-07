@@ -1,0 +1,32 @@
+---
+import { SITE } from "../config/site";
+---
+
+<div
+  class="reveal mt-8 grid gap-6 rounded-xl border p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center"
+  style="border-color: var(--border); background: var(--surface);"
+>
+  <div>
+    <p class="flex items-center gap-3 text-xl font-extrabold">
+      <span aria-hidden="true" class="grid size-10 shrink-0 place-items-center rounded-lg" style="background: var(--action); color: var(--on-action);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="size-5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+      عکس‌های سفر این‌جاست، زندگی‌اش در اینستاگرام
+    </p>
+    <p class="mt-2 max-w-2xl" style="color: var(--muted);">
+      سفرهایم را سبک نگه می‌دارم؛ چند یادداشت و چند قاب. مجموعه‌ی کامل عکس‌ها در اینستاگرام است —
+      بدون امبد سنگین، فقط یک دعوت ساده: <span class="ltr font-mono text-sm">{SITE.instagramHandle}</span>
+    </p>
+  </div>
+  <p>
+    <a
+      href={SITE.instagram}
+      target="_blank"
+      rel="me noopener"
+      class="btn-primary inline-flex min-h-12 items-center gap-2 rounded-lg px-6 font-bold"
+      style="background: var(--action); color: var(--on-action);"
+    >
+      دنبال کردن در اینستاگرام ↗
+    </a>
+  </p>
+</div>

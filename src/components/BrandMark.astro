@@ -1,0 +1,48 @@
+---
+/* BrandMark — typographic wordmark. The name itself is the logo, underlined
+   by a miniature of the signature stroke (the site's single device).
+   No boxed mark: at header size the seal read as a generic app icon. */
+
+type Props = {
+  size?: "header" | "footer";
+};
+
+const { size = "header" } = Astro.props as Props;
+const nameCls = size === "header" ? "text-[1.05rem]" : "text-[1.6rem]";
+const strokeW = size === "header" ? "width: 92px;" : "width: 140px;";
+---
+
+<span class="brand inline-flex flex-col leading-tight">
+  <span class:list={["font-extrabold", nameCls]}>دانیال رشیدی</span>
+  <svg class="brand-stroke-mini" style={strokeW} viewBox="0 0 120 8" aria-hidden="true" focusable="false">
+    <path d="M3 5.5 C 35 2.5, 80 2.5, 117 4.5" />
+  </svg>
+  <span class="ltr font-mono text-[0.7rem]" style="color: var(--muted);">danialrashidi.ir</span>
+</span>
+
+<style>
+  .brand-stroke-mini {
+    display: block;
+    height: 7px;
+    margin-block: 1px 3px;
+  }
+  .brand-stroke-mini path {
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+  }
+  /* Hover: the little stroke redraws itself — one quiet delight. */
+  a:hover .brand-stroke-mini path {
+    stroke-dasharray: 130;
+    animation: mini-draw 550ms var(--ease-out);
+  }
+  @keyframes mini-draw {
+    from {
+      stroke-dashoffset: 130;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

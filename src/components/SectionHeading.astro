@@ -1,0 +1,21 @@
+---
+type Props = { index: string; title: string; note?: string; href?: string; linkLabel?: string };
+const { index, title, note, href, linkLabel } = Astro.props as Props;
+---
+
+<div class="section-rule pt-6">
+  <div class="flex flex-wrap items-baseline justify-between gap-3">
+    <p class="flex items-baseline gap-3">
+      <span class="font-mono text-sm ltr" style="color: var(--accent);">{index}</span>
+      <h2 class="text-xl font-extrabold sm:text-2xl">{title}</h2>
+    </p>
+    {
+      href && linkLabel && (
+        <a href={href} class="quiet-link min-h-11 inline-flex items-center text-[0.95rem]">
+          {linkLabel} ←
+        </a>
+      )
+    }
+  </div>
+  {note && <p class="mt-2 max-w-2xl" style="color: var(--muted);">{note}</p>}
+</div>

@@ -1,0 +1,51 @@
+---
+/* قاب تصویر پروژه — اسکرین‌شات با نسبت طبیعی خودش، کامل و بدون کراپ
+   (خواسته‌ی مالک). در غیر این صورت پنل تایپوگرافیک صادقانه. */
+
+type Props = {
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  title: string;
+  faTitle?: string;
+  monogram: string;
+  eager?: boolean;
+};
+
+const { image, imageAlt, imageWidth, imageHeight, title, faTitle, monogram, eager = false } = Astro.props as Props;
+const alt = imageAlt ?? `تصویر پروژه‌ی ${faTitle ?? title}`;
+---
+
+{
+  image ? (
+    <span class="project-img-wrap block overflow-hidden" style="background: var(--surface);">
+      <img
+        src={image}
+        alt={alt}
+        width={imageWidth}
+        height={imageHeight}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        class="project-img block h-auto w-full"
+      />
+    </span>
+  ) : (
+    <span class="grid aspect-[16/10] place-items-center" style="background: var(--surface);">
+      <span class="px-6 text-center">
+        <span class="panel-mono block text-5xl ltr" style="color: var(--action);">{monogram}</span>
+        <span class="mt-2 block font-mono text-xs ltr" style="color: var(--muted);">{title}</span>
+        <span class="mt-1 block text-xs" style="color: var(--muted);">تصویر واقعی به‌زودی — بدون ماکاپ تزیینی</span>
+      </span>
+    </span>
+  )
+}
+
+<style>
+  .project-img {
+    transition: transform 500ms var(--ease-out);
+  }
+  a:hover .project-img {
+    transform: scale(1.02);
+  }
+</style>

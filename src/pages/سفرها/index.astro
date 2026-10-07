@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import TravelCard from "../../components/TravelCard.astro";
+import InstagramBand from "../../components/InstagramBand.astro";
+
+const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base path="/سفرها/" title="سفرها و یادداشت‌های سفر" description="یادداشت‌های کوتاه سفر دانیال رشیدی — کوه، دره و جاده‌های ایران؛ عکس‌های کامل هر سفر در اینستاگرام منتشر می‌شود.">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="pb-8 pt-12 md:pt-16" aria-labelledby="travels-title">
+      <p class="font-mono text-sm" style="color: var(--accent);">یادداشت‌های کوتاه</p>
+      <h1 id="travels-title" class="mt-4 text-4xl font-extrabold sm:text-5xl">سفرها</h1>
+      <p class="mt-4 max-w-2xl" style="color: var(--muted);">
+        سفر برای من جدا از کار نیست. این‌جا چند یادداشت کوتاه است؛
+        عکس‌های کامل در اینستاگرام زندگی می‌کنند.
+      </p>
+    </section>
+
+    <section class="grid gap-6 pb-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="سفرها">
+      {travels.map((entry) => <TravelCard entry={entry} />)}
+    </section>
+
+    <section class="pb-10" aria-label="اینستاگرام">
+      <InstagramBand />
+    </section>
+  </div>
+</Base>

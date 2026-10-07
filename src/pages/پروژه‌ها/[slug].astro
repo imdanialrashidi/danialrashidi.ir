@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ProjectImage from "../../components/ProjectImage.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => {
+    const slug = project.id.replace(/\.mdx?$/, "");
+    return { params: { slug }, props: { project } };
+  });
+}
+
+const { project } = Astro.props;
+const slug = project.id.replace(/\.mdx?$/, "");
+const { Content } = await render(project);
+const { data } = project;
+---
+
+<Base
+  path={`/پروژه‌ها/${slug}/`}
+  title={data.faTitle ?? data.title}
+  description={data.description}
+  ogType="article"
+>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <nav class="pt-10 text-sm" aria-label="مسیر">
+      <a class="quiet-link" href="/پروژه‌ها/">پروژه‌ها</a>
+      <span aria-hidden="true" style="color: var(--muted);"> / </span>
+      <span aria-current="page">{data.faTitle ?? data.title}</span>
+    </nav>
+
+    <section class="grid gap-10 py-8 md:grid-cols-[7fr_5fr]" aria-labelledby="detail-title">
+      <div>
+        <p class="font-mono text-sm" style="color: var(--accent);">{data.year} · {data.status}</p>
+        <h1 id="detail-title" class="mt-3 text-4xl font-extrabold sm:text-5xl">{data.faTitle ?? data.title}</h1>
+        <p class="ltr mt-2 font-mono text-sm" style="color: var(--muted);">{data.title}</p>
+        <p class="mt-5 max-w-2xl text-lg leading-9">{data.description}</p>
+        <ul class="mt-5 flex flex-wrap gap-2" aria-label="فناوری‌ها">
+          {
+            data.technologies.map((tech) => (
+              <li class="rounded-md border px-2.5 py-1 text-xs" style="border-color: var(--border); color: var(--muted);">
+                {tech}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="prose-fa mt-8 max-w-2xl">
+          <Content />
+        </div>
+        <p class="mt-8 flex flex-wrap gap-5">
+          {
+            data.liveUrl && (
+              <a href={data.liveUrl} target="_blank" rel="noopener" class="inline-flex min-h-12 items-center rounded-lg px-6 font-bold" style="background: var(--action); color: var(--on-action);">
+                سایت زنده ↗
+              </a>
+            )
+          }
+          {
+            data.githubUrl && (
+              <a href={data.githubUrl} target="_blank" rel="me noopener" class="quiet-link inline-flex min-h-12 items-center font-bold">
+                گیت‌هاب ↗
+              </a>
+            )
+          }
+          <a href="/پروژه‌ها/" class="quiet-link inline-flex min-h-12 items-center">برگشت به پروژه‌ها ←</a>
+        </p>
+        <p class="mt-6" style="color: var(--muted);">— دانیال</p>
+      </div>
+      <aside class="photo-frame h-fit" aria-label="قاب پروژه">
+        <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} eager />
+        <div class="border-t px-5 py-4" style="border-color: var(--border);">
+          <p class="text-sm font-bold">{data.faTitle ?? data.title}</p>
+          <p class="font-mono text-xs" style="color: var(--muted);">قاب پروژه · {data.year}</p>
+        </div>
+      </aside>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .prose-fa :global(p) {
+    margin-block: 1rem;
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://danialrashidi.ir/sitemap-index.xml

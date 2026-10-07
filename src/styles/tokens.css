@@ -1,0 +1,42 @@
+/* Semantic tokens — code owns resolved values; docs/DESIGN.md owns intent.
+   Light: warm paper editorial. Dark: deep ink-green, intentionally designed. */
+
+:root {
+  --dur-fast: 150ms;
+  --dur-slow: 600ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --font-display: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --canvas: #faf7f1;
+  --surface: #ffffff;
+  --ink: #1c1b19;
+  --muted: #6e675e;
+  --action: #1e4d3b;
+  --on-action: #faf7f1;
+  --accent: #9a3412;
+  --border: #e4dac8;
+  --rule: #d8cdb6;
+  --frame-shadow: rgba(28, 27, 25, 0.08);
+  --focus: #1e4d3b;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --canvas: #131511;
+  --surface: #1b1e1a;
+  --ink: #ece7db;
+  --muted: #a9a294;
+  --action: #ece7db;
+  --on-action: #131511;
+  --accent: #d8a36c;
+  --border: #2c312b;
+  --rule: #343a32;
+  --frame-shadow: rgba(0, 0, 0, 0.4);
+  --focus: #ece7db;
+
+  color-scheme: dark;
+}

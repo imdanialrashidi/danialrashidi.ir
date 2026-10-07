@@ -1,0 +1,119 @@
+---
+import Base from "../../layouts/Base.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Signature from "../../components/Signature.astro";
+import ProfilePhoto from "../../components/ProfilePhoto.astro";
+import SocialIcons from "../../components/SocialIcons.astro";
+import { SITE, PROFILE } from "../../config/site";
+---
+
+<Base path="/درباره/" title="درباره‌ی دانیال رشیدی" description="دانیال رشیدی، سازنده‌ی نرم‌افزار و محصول؛ مسیر کاری، روش کار و چیزهایی که این روزها به آن‌ها فکر می‌کنم — کوتاه و بدون اغراق.">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="grid gap-10 pb-10 pt-12 md:grid-cols-[7fr_5fr] md:items-start md:pt-16" aria-labelledby="about-title">
+      <div>
+        <p class="hero-enter font-mono text-sm" style="color: var(--accent);">درباره · {PROFILE.location} · {PROFILE.availability}</p>
+        <h1 id="about-title" class="sr-only">درباره‌ی دانیال رشیدی</h1>
+        <div class="hero-enter mt-4" style="--reveal-delay: 80ms;">
+          <Signature size="hero" />
+        </div>
+        <p class="hero-enter mt-6 max-w-2xl text-lg leading-9" style="--reveal-delay: 160ms;">
+          من دانیال هستم؛ نرم‌افزار و محصول می‌سازم. از وب‌اپ و ابزار کاربردی تا
+          اتوماسیون‌هایی که کار تکراری را کم می‌کنند. چیزی که برایم مهم است مشخص است:
+          ایده‌ی مبهم را به سیستمِ در حال کار تبدیل کنم.
+        </p>
+        <div class="hero-enter mt-6" style="--reveal-delay: 240ms;">
+          <SocialIcons ids={["telegram", "github", "instagram", "email"]} />
+        </div>
+      </div>
+      <ProfilePhoto />
+    </section>
+
+    <section class="grid gap-10 py-8 md:grid-cols-[7fr_5fr]" aria-label="جزئیات">
+      <div class="space-y-8">
+        <div class="reveal">
+          <h2 class="text-xl font-extrabold">چطور کار می‌کنم</h2>
+          <ul class="mt-3 space-y-3">
+            <li class="border-s-2 ps-4" style="border-color: var(--accent);">
+              <strong>مسئله‌ی واقعی را حل می‌کنم.</strong>
+              <span style="color: var(--muted);"> پیچیدگی‌ای که نتیجه را بهتر نکند، حذف می‌شود.</span>
+            </li>
+            <li class="border-s-2 ps-4" style="border-color: var(--accent);">
+              <strong>سیستمِ در حال کار تحویل می‌دهم.</strong>
+              <span style="color: var(--muted);"> هرچه زودتر اجرا شود، زودتر با واقعیت سنجیده می‌شود.</span>
+            </li>
+            <li class="border-s-2 ps-4" style="border-color: var(--accent);">
+              <strong>از هوش مصنوعی کمک می‌گیرم، ولی راستی‌آزمایی با من است.</strong>
+              <span style="color: var(--muted);"> سرعت بیشتر نباید به قیمت قضاوت کمتر تمام شود.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <h2 class="text-xl font-extrabold">مسیر تاکنون — کوتاه و صادقانه</h2>
+          <ol class="mt-4 space-y-0">
+            <li class="grid gap-1 border-s-2 pb-6 ps-4 sm:grid-cols-[90px_1fr]" style="border-color: var(--border);">
+              <span class="font-mono text-sm" style="color: var(--accent);">۱۴۰۳</span>
+              <span><strong>کارهای تحویل‌شده‌ی وب.</strong> <span style="color: var(--muted);">السا همراه، ایسباتاب، موبایل خورسندی و خانه‌ی آیلتس — فروشگاهی، شرکتی و آموزشی. جزئیات و نشانی زنده در صفحه‌ی پروژه‌ها.</span></span>
+            </li>
+            <li class="grid gap-1 border-s-2 pb-6 ps-4 sm:grid-cols-[90px_1fr]" style="border-color: var(--border);">
+              <span class="font-mono text-sm" style="color: var(--accent);">۱۴۰۴–۱۴۰۵</span>
+              <span><strong>تمرکز روی محصول خودم.</strong> <span style="color: var(--muted);">نوونو — از پروژه‌ی مشتری به ساختن سیستم خودم. قدم‌به‌قدم، بدون ادعای بزرگ.</span></span>
+            </li>
+            <li class="grid gap-1 border-s-2 ps-4 sm:grid-cols-[90px_1fr]" style="border-color: var(--accent);">
+              <span class="font-mono text-sm" style="color: var(--accent);">الان</span>
+              <span><strong>{PROFILE.nowDoing}.</strong> <span style="color: var(--muted);">{PROFILE.availability} — {PROFILE.availabilityNote}.</span></span>
+            </li>
+          </ol>
+        </div>
+        <div class="reveal">
+          <h2 class="text-xl font-extrabold">این روزها</h2>
+          <ul class="mt-3 list-disc space-y-2 ps-5" style="color: var(--muted);">
+            <li>جلو بردن نوونو، قدم‌به‌قدم</li>
+            <li>قوی‌تر شدن در تایپ‌اسکریپت، بک‌اند و مهندسی محصول</li>
+            <li>کوه، کمپ، سفر و موسیقی — بیرون از ویرایشگر ({PROFILE.interests.join("، ")})</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="photo-frame reveal h-fit" aria-label="شناسنامه‌ی کوتاه">
+        <div class="p-6" style="background: var(--surface);">
+          <p class="font-bold">شناسنامه‌ی کوتاه</p>
+          <dl class="mt-4 space-y-3 text-sm">
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">نام</dt>
+              <dd class="font-bold">دانیال رشیدی</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">کار</dt>
+              <dd>نرم‌افزار، محصول، اتوماسیون</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">موقعیت</dt>
+              <dd>{PROFILE.location} · {PROFILE.availability}</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">وب انگلیسی</dt>
+              <dd><a class="quiet-link ltr font-mono text-xs" href={SITE.englishSite} target="_blank" rel="noopener">{SITE.englishLabel}</a></dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">تلگرام</dt>
+              <dd><a class="quiet-link ltr font-mono text-xs" href={SITE.telegram} target="_blank" rel="me noopener">{SITE.telegramHandle}</a></dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs" style="color: var(--muted);">ایمیل</dt>
+              <dd><a class="quiet-link ltr font-mono text-xs" href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+    </section>
+
+    <section class="py-10" aria-label="ادامه">
+      <SectionHeading index="→" title="بعدش کجا؟" />
+      <p class="mt-6 flex flex-wrap gap-5">
+        <a href="/پروژه‌ها/" class="btn-primary inline-flex min-h-12 items-center rounded-lg px-7 font-bold" style="background: var(--action); color: var(--on-action);">
+          دیدن پروژه‌ها
+        </a>
+        <a href="/ارتباط/" class="quiet-link inline-flex min-h-12 items-center font-bold">راه‌های ارتباط ←</a>
+      </p>
+    </section>
+  </div>
+</Base>

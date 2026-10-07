@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = { entry: CollectionEntry<"travels"> };
+const { entry } = Astro.props as Props;
+const key = entry.id.replace(/\.mdx?$/, "");
+const { data } = entry;
+const alt = data.imageAlt ?? `سفر به ${data.destination}`;
+---
+
+<article class="photo-frame reveal travel-card" aria-labelledby={`travel-${key}`}>
+  <div class="travel-img-wrap overflow-hidden" style="background: var(--surface);">
+    {
+      data.image ? (
+        <img
+          src={data.image}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          class="travel-img block aspect-[4/3] w-full object-cover"
+        />
+      ) : (
+        <div class="grid aspect-[4/3] place-items-center px-6 text-center">
+          <div>
+            <p class="panel-mono text-6xl" style="color: var(--action);">{data.monogram}</p>
+            <p class="mt-2 font-bold">{data.destination}</p>
+            <p class="font-mono text-xs" style="color: var(--muted);">{data.date}</p>
+          </div>
+        </div>
+      )
+    }
+  </div>
+  <div class="border-t p-5" style="border-color: var(--border);">
+    <h3 id={`travel-${key}`} class="font-bold">{data.destination}</h3>
+    <p class="mt-1 font-mono text-xs" style="color: var(--muted);">{data.date}</p>
+    <p class="mt-2 text-sm" style="color: var(--muted);">{data.description}</p>
+    {
+      data.instagramUrl && (
+        <a href={data.instagramUrl} target="_blank" rel="noopener" class="quiet-link mt-3 inline-flex min-h-11 items-center text-sm">
+          دیدن عکس‌ها در اینستاگرام ↗
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .travel-img {
+    transition: transform 500ms var(--ease-out);
+  }
+  .travel-card:hover .travel-img {
+    transform: scale(1.04);
+  }
+</style>

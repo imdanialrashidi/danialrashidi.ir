@@ -58,6 +58,14 @@
       "commands": [
         ["bash", "scripts/pi-doctor.sh", "--ci", "--static"]
       ]
+    },
+    {
+      "id": "persian-site",
+      "include": ["src/**", "tests/site-structure.test.mjs", "tests/support-card.test.mjs", "astro.config.mjs", "public/**", "scripts/project-verify.sh", "scripts/qa-screenshots.mjs"],
+      "commands": [
+        ["node", "--test", "tests/site-structure.test.mjs", "tests/support-card.test.mjs"],
+        ["bash", "scripts/project-verify.sh"]
+      ]
     }
   ],
   "fallback": [
