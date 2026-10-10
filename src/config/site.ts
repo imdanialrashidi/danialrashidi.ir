@@ -13,6 +13,7 @@ export const SITE = {
   dir: "rtl" as const,
   tagline: "نرم‌افزار، محصول و سفر",
   ogImage: "/images/og-cover.jpg",
+  ogImageAlt: "کارت معرفی دانیال رشیدی — نرم‌افزار، محصول و سفر · danialrashidi.ir",
   description:
     "دانیال رشیدی هستم؛ نرم‌افزار و محصول می‌سازم — از ایده‌ی مبهم تا سیستمِ در حال کار. پروژه‌ها، سفرها و راه‌های ارتباط این‌جاست.",
   email: "imdanialrashidi@gmail.com",

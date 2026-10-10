@@ -18,6 +18,20 @@ Owner-stated choices (from 2026-10-06 brief; preserved across sessions, revised 
 - Canonical code token source: `src/styles/tokens.css` (proposed; owns resolved values once implemented).
 - Owner-stated personal-site upgrades (2026-10-06 fa brief, preserved until explicit change): hero must reserve a real portrait slot for Danial's own photo; every project gets its own image slot; social links get recognizable line icons; add tasteful (باحال ولی سنگین‌نشده) animations; support page shows a real card number driven by ONE variable the owner edits in a single file; ONE config file owns all social/contact links so changing its variables updates the whole site; overall site must feel more like a real person's home (availability, now, human notes). Page changes must feel instant — no visible loading between pages. The header logo must be fixed and become genuinely beautiful. No new colors, fonts, or locales requested — palette/type/motion restraint above still apply; new agent-proposed details are labeled separately in the decision log.
 
+## Owner direction — 2026-10-10 study + support slice (explicit owner choices, preserved until explicit change)
+
+- Study center: new project `مرکز مطالعه — وب‌سایت‌های آموزشی درسی` with live URL `https://study.danialrashidi.ir` and owner-supplied screenshot `public/images/projects/study-index.png` (1840×932). Descriptions taken from that screenshot, not invented. Noveno stays the first/large featured spread on the homepage; study follows it.
+- Hero must surface the study center (فهرست وب‌سایت‌های آموزشی) in addition to projects; footer `بخش‌ها` must link to the study center.
+- Support page must show the owner-provided card `6219 8618 4227 4689` in the name of `دانیال رشیدی`, beautifully presented with a working copy control. No bank name was provided — none invented.
+- No new colors, fonts, or locales requested for this slice — palette/type/motion restraint above still applies.
+
+## Owner direction — 2026-10-10 favicon + preview + slop pass (explicit owner choices)
+
+- Favicon: owner asked for a better one (`favicion بهتری`). No exact artwork given — agent refined the existing seal within the same palette.
+- Link preview: owner asked to remove his photo from the link preview and put something cool instead (`یچیز باحال`). Portrait stays in hero/about/structured-data; only `og-cover.jpg` changes.
+- Copy: owner asked for a `no-ai-slop` audit and fixes wherever the text sounds AI-made. Fixed sentences are listed in the decision log; meaning and facts unchanged.
+- No new colors, fonts, or locales — restraint above still applies.
+
 ## Experience brief
 
 - Product / surface: danialrashidi.ir — Danial Rashidi's Persian digital home.
@@ -135,7 +149,7 @@ Journey states: loading (native, no SPA spinner — instant static HTML); empty 
 - Vocabulary/tone: first-person, concrete, calm. Name real things (Noveno, the four client sites). No "تحول‌آفرین / پیشگام / توانمندسازی" puffery. Short sentences mixed with longer explanatory ones; Persian punctuation natural.
 - Action labels: `دیدن پروژه‌ها` (primary), `بیشتر درباره‌ی من` (secondary), `خواندن سفرها`, `دنبال کردن در اینستاگرام`, `گفت‌وگو در تلگرام`.
 - Error/empty: honest and useful ("این سفر هنوز عکسی ندارد — در اینستاگرام ببینید.").
-- Fixtures: 5 real projects (Noveno featured + 4 client sites, each with a real screenshot) with year/status/tech/live/featured; 3 travel notes (owner's picks: Yakh-Morad cave mapping 1404, Dareh-Marg canyoning 1404, Dalakhani canyoning 1403 — old Tochal/Masuleh/Maranjab removed per owner 2026-10-07); trip photos wired via `image:` when the owner drops files in `public/images/travels/`; support methods from `src/config/support.ts` (empty by default → honest empty state).
+- Fixtures: 6 real projects (Noveno + Study center featured, each with a real screenshot; 4 client sites as compact rows) with year/status/tech/live/featured; 3 travel notes (owner's picks: Yakh-Morad cave mapping 1404, Dareh-Marg canyoning 1404, Dalakhani canyoning 1403 — old Tochal/Masuleh/Maranjab removed per owner 2026-10-07); trip photos wired via `image:` when the owner drops files in `public/images/travels/`; support card from `src/config/support.ts` is owner-configured (`6219 8618 4227 4689` in the name of `دانیال رشیدی`, set 2026-10-10) → configured card UI with copy control.
 
 ## Quality budgets
 
@@ -178,3 +192,7 @@ Journey states: loading (native, no SPA spinner — instant static HTML); empty 
 | 2026-10-06 | Vazirmatn self-hosted, Tahoma fallback; mono for latin handles | Persian readability + offline/static budget; OFL license | If font budget exceeds performance target |
 | 2026-10-06 | No Instagram embed; static preview + CTA to real profile | Owner performance constraint; third-party embeds banned for LCP | If owner requests live feed (re-evaluate budget) |
 | 2026-10-06 | Vazirmatn self-hosted via @fontsource/vazirmatn (400/500/700/800) imported in Base.astro; fake local-only @font-face removed after screenshot showed fallback rendering | First-pass screenshots rendered Tahoma fallback; re-capture after fix shows Vazirmatn | If font subset budget (>800KB dist) becomes a problem |
+| 2026-10-10 | Study center joins as second featured project (Noveno stays first/large); hero + footer surface `study.danialrashidi.ir`; copy/descriptions taken from owner-supplied `study-index.png`; support card `6219 8618 4227 4689` to `دانیال رشیدی` configured in `src/config/support.ts` with existing copy control | Explicit owner fa brief 2026-10-10 (link + screenshot + card number + holder); no new colors/fonts; keeps editorial restraint, one-variable payment rule now holds real owner data | When owner supplies bank name, additional courses, or new screenshots |
+| 2026-10-10 | Favicon refined in place (`public/favicon.svg` stays the seal: deep-green rounded square + paper `د` + curved signature swoosh instead of the straight bar) + new `public/apple-touch-icon.png` (180px render of the same seal); `Base.astro` wires it | Owner asked for a better favicon, no artwork supplied; swoosh echoes the site's single signature device, same palette, legible at 16px (verified strip) | If owner supplies exact mark artwork |
+| 2026-10-10 | Link-preview cover replaced: `public/images/og-cover.jpg` is now a photo-free editorial card (paper, seal, giant name + terracotta stroke, tagline, section strip; 1200×630) rendered from `scripts/brand/og-cover.html` via `scripts/brand/render.mjs`; `og:image:alt` now comes from `SITE.ogImageAlt`, not the portrait alt; hero/about/JSON-LD portrait untouched | Explicit owner request to remove his photo from the preview and put something cool; card reuses thesis tokens, Vazirmatn self-hosted in render | If owner wants courses or a new photo in the preview |
+| 2026-10-10 | no-ai-slop copy pass (11 sentences, meaning preserved): doubled `واقعاً…واقعاً` in noveno → single; cut 4× identical `نشانی زنده سر جایش است` closings (live button adjacent); cut isbatab mic-drop + mobile-khorsandi truism; درباره colon-reveal merged; ارتباط 4th tagline repeat cut; سفرها/InstagramBand `زندگی می‌کنند` metaphor deduplicated; SupportPanel same-page thanks repeat cut; hero bullet empty `واقعاً` cut | Owner-requested audit per `no-ai-slop` skill; each fix maps to a named pattern (empty qualifier, redundant recap, fake-profound ending, portable truism, dramatic colon reveal, metaphor repeat) | If owner restores any line as personal voice |

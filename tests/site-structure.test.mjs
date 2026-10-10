@@ -27,7 +27,7 @@ describe("persian editorial slice", () => {
     }
   });
 
-  it("ships exactly the five real projects with required fields", () => {
+  it("ships exactly the six real projects with required fields", () => {
     const files = readdirSync(`${ROOT}src/content/projects`).filter((f) => f.endsWith(".md")).sort();
     deepStrictEqual(files, [
       "elsa-hamrah.md",
@@ -35,6 +35,7 @@ describe("persian editorial slice", () => {
       "mobile-khorsandi.md",
       "noveno.md",
       "php-ielts-house.md",
+      "study.md",
     ]);
     for (const file of files) {
       const fm = frontmatter(`${ROOT}src/content/projects/${file}`);
@@ -43,7 +44,15 @@ describe("persian editorial slice", () => {
       }
     }
     const featured = files.filter((f) => frontmatter(`${ROOT}src/content/projects/${f}`).featured === "true");
-    deepStrictEqual(featured, ["noveno.md"]);
+    deepStrictEqual(featured, ["noveno.md", "study.md"]);
+    const study = readFileSync(`${ROOT}src/content/projects/study.md`, "utf8");
+    ok(study.includes("https://study.danialrashidi.ir"), "study project must link the real study subdomain");
+    ok(study.includes("/images/projects/study-index.png"), "study project must use the owner-supplied screenshot");
+    const orders = files.map((f) => Number(frontmatter(`${ROOT}src/content/projects/${f}`).order));
+    ok(orders[0] >= 0, "orders must parse");
+    const novenoOrder = Number(frontmatter(`${ROOT}src/content/projects/noveno.md`).order);
+    const studyOrder = Number(frontmatter(`${ROOT}src/content/projects/study.md`).order);
+    ok(novenoOrder < studyOrder, "Noveno must stay before the study center");
   });
 
   it("every project points at a real image file with Persian alt text", () => {
@@ -74,11 +83,27 @@ describe("persian editorial slice", () => {
     ok(site.includes("imdanialrashidi.github.io"), "English site handle missing");
   });
 
-  it("never invents payment data: support config stays empty with honest UI", () => {
+  it("uses only owner-provided payment data: configured card with honest fallback UI", () => {
     const support = readFileSync(`${ROOT}src/config/support.ts`, "utf8");
     ok(/SUPPORT_METHODS: SupportMethod\[\] = \[\s*(\/\/[^\n]*\n|\s)*\];/.test(support), "support methods must stay owner-configured (empty by default)");
+    // Owner-provided card (2026-10-10 brief): digits + holder only, no invented bank.
+    ok(support.includes("6219861842274689"), "owner card number missing from support config");
+    ok(support.includes("دانیال رشیدی"), "card holder name missing from support config");
     const panel = readFileSync(`${ROOT}src/components/SupportPanel.astro`, "utf8");
-    ok(panel.includes("هنوز راه پرداخت ندارد"), "honest unconfigured support state missing");
+    ok(panel.includes("هنوز راه پرداخت ندارد"), "honest unconfigured support fallback must be kept");
+    ok(panel.includes("data-copy-card"), "card copy control missing");
+    ok(panel.includes('role="status"'), "copy live-region missing");
+  });
+
+  it("surfaces the study center in hero, projects index, and footer sections", () => {
+    const home = readFileSync(`${ROOT}src/pages/index.astro`, "utf8");
+    ok(home.includes("https://study.danialrashidi.ir"), "hero must link the study subdomain");
+    ok(home.includes("/پروژه‌ها/study/"), "hero must link the study detail page");
+    const projectsIndex = readFileSync(`${ROOT}src/pages/پروژه‌ها/index.astro`, "utf8");
+    ok(projectsIndex.includes("۰۶ پروژه"), "projects index count must reflect six projects");
+    const footer = readFileSync(`${ROOT}src/components/Footer.astro`, "utf8");
+    ok(footer.includes("https://study.danialrashidi.ir"), "footer sections must link the study center");
+    ok(footer.includes("مرکز مطالعه"), "footer study label missing");
   });
 
   it("every travel photo, when present, points at a real file with Persian alt text", () => {
@@ -118,6 +143,18 @@ describe("persian editorial slice", () => {
     const heading = readFileSync(`${ROOT}src/components/SectionHeading.astro`, "utf8");
     ok(heading.includes("<h2"), "section headings must be real h2 elements");
     ok(existsSync(`${ROOT}public/images/og-cover.jpg`), "dedicated social cover image missing");
+    // Link preview must be the photo-free editorial card, never the portrait (owner 2026-10-10).
+    const cover = readFileSync(`${ROOT}public/images/og-cover.jpg`);
+    const portrait = readFileSync(`${ROOT}public/images/Danial_photo.jpg`);
+    ok(!cover.equals(portrait), "og-cover must not be the portrait photo");
+    ok(base.includes("SITE.ogImageAlt"), "og:image:alt must come from site config, not the portrait alt");
+    const site = readFileSync(`${ROOT}src/config/site.ts`, "utf8");
+    ok(site.includes("ogImageAlt"), "site config must own the social cover alt text");
+    // Seal favicon + touch icon for link-preview/tab surfaces.
+    ok(existsSync(`${ROOT}public/apple-touch-icon.png`), "apple-touch-icon missing");
+    ok(base.includes("apple-touch-icon"), "base layout must wire the apple-touch-icon");
+    const favicon = readFileSync(`${ROOT}public/favicon.svg`, "utf8");
+    ok(favicon.includes("#1E4D3B") && favicon.includes("<path"), "favicon must be the seal mark with the signature stroke");
     const files = readdirSync(`${ROOT}src/content/projects`).filter((f) => f.endsWith(".md"));
     for (const file of files) {
       const raw = readFileSync(`${ROOT}src/content/projects/${file}`, "utf8");

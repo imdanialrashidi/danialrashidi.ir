@@ -12,17 +12,18 @@ const rest = projects.filter((p) => !p.data.featured);
 <Base path="/پروژه‌ها/" title="پروژه‌های دانیال رشیدی" description="پروژه‌های دانیال رشیدی: نوونو، فروشگاه‌های اینترنتی و سایت‌های شرکتی و آموزشی؛ هرکدام با اسکرین‌شات واقعی، شرح کار و نشانی زنده.">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     <section class="pb-8 pt-12 md:pt-16" aria-labelledby="projects-title">
-      <p class="font-mono text-sm" style="color: var(--accent);">۰۵ پروژه · ۱ جدی، ۴ منتخب</p>
+      <p class="font-mono text-sm" style="color: var(--accent);">۰۶ پروژه · ۲ ویژه، ۴ منتخب</p>
       <h1 id="projects-title" class="mt-4 text-4xl font-extrabold sm:text-5xl">پروژه‌ها</h1>
       <p class="mt-4 max-w-2xl" style="color: var(--muted);">
-        کاری که عمیق جلو می‌برم اول است؛ بقیه پروفایل‌های کوتاه و صادقانه‌اند.
-        هر پنج‌تا اسکرین‌شات واقعی دارند — بدون ماکاپ تزیینی.
+        کاری که عمیق جلو می‌برم اول است — نوونو و مرکز مطالعه؛ بقیه پروفایل‌های کوتاه و صادقانه‌اند.
+        هر شش‌تا اسکرین‌شات واقعی دارند — بدون ماکاپ تزیینی.
       </p>
     </section>
 
     <section aria-label="کارهای جدی">
       <div class="section-rule pt-6">
         <p class="font-mono text-sm" style="color: var(--accent);">ویژه — کار عمیق</p>
+        <p class="mt-2 text-sm" style="color: var(--muted);">نوونو اول است؛ مرکز مطالعه‌ی درسی بعدش.</p>
       </div>
       <div class="divide-y" style="border-color: var(--border);">
         {featured.map((project, i) => <ProjectSpread project={project} flip={i % 2 === 1} />)}

@@ -28,9 +28,9 @@ export type SupportCard = {
 };
 
 export const SUPPORT_CARD: SupportCard = {
-  number: "",
+  number: "6219861842274689",
   bank: "",
-  holder: "",
+  holder: "دانیال رشیدی",
 };
 
 export function isSupportCardConfigured(card: SupportCard): boolean {

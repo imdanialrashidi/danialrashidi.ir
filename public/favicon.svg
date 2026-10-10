@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="مُهر دانیال رشیدی">
-  <rect width="64" height="64" rx="12" fill="#1E4D3B"/>
-  <text x="32" y="41" text-anchor="middle" font-family="Tahoma, sans-serif" font-size="28" font-weight="700" fill="#FAF7F1">د</text>
-  <rect x="14" y="46" width="36" height="2" fill="#FAF7F1"/>
+  <!-- مُهر شخصی: سبز سیر تحریریه + «د» کاغذی + خم امضا (همان تک‌نشان سایت) -->
+  <rect width="64" height="64" rx="14" fill="#1E4D3B"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Vazirmatn, Tahoma, sans-serif" font-size="30" font-weight="800" fill="#FAF7F1">د</text>
+  <path d="M18 47 C 28 43.5, 40 43.5, 48 46" stroke="#FAF7F1" stroke-width="3" fill="none" stroke-linecap="round"/>
 </svg>

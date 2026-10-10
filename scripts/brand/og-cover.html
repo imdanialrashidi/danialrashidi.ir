@@ -1,0 +1,76 @@
+<!doctype html>
+<!-- مستر کارت اشتراک (link preview) — بدون عکس پرتره، به خواست مالک ۱۴۰۳/۰۷.
+     رندر: node scripts/brand/render.mjs → public/images/og-cover.jpg (1200×630).
+     پالت همان توکن‌های تحریریه است؛ چیز تازه‌ای به سایت اضافه نمی‌کند. -->
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Vazirmatn";
+    src: url("file:///home/danial/Documents/GitHub/danialrashidi.ir/node_modules/@fontsource/vazirmatn/files/vazirmatn-arabic-800-normal.woff2") format("woff2");
+    font-weight: 800;
+  }
+  @font-face {
+    font-family: "Vazirmatn";
+    src: url("file:///home/danial/Documents/GitHub/danialrashidi.ir/node_modules/@fontsource/vazirmatn/files/vazirmatn-arabic-400-normal.woff2") format("woff2");
+    font-weight: 400;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px;
+    background: #FAF7F1; color: #1C1B19;
+    font-family: "Vazirmatn", Tahoma, sans-serif;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    width: 1200px; height: 630px;
+    border: 1px solid #E4DAC8;
+    display: flex; flex-direction: column;
+    padding: 56px 72px 48px;
+  }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .top .kick { color: #9A3412; font-size: 24px; font-weight: 400; }
+  .top .domain { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 22px; color: #6E675E; direction: ltr; }
+  .middle { flex: 1; display: flex; align-items: center; gap: 40px; }
+  .seal {
+    width: 128px; height: 128px; border-radius: 28px; flex-shrink: 0;
+    background: #1E4D3B; color: #FAF7F1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .seal span { font-size: 64px; font-weight: 800; line-height: 1; }
+  .seal svg { width: 64px; height: 8px; margin-top: 4px; }
+  .name-block { flex: 1; }
+  .name { font-size: 108px; font-weight: 800; line-height: 1.25; }
+  .stroke { display: block; width: 420px; height: 12px; margin-top: 6px; }
+  .stroke path { stroke: #9A3412; stroke-width: 4; fill: none; stroke-linecap: round; }
+  .tagline { margin-top: 18px; font-size: 34px; color: #6E675E; }
+  .bottom { border-top: 1px solid #E4DAC8; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .bottom .sections { font-size: 24px; color: #6E675E; }
+  .bottom .est { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 22px; color: #6E675E; direction: ltr; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="top">
+      <p class="kick">۰ · خانه‌ی شخصی</p>
+      <p class="domain">danialrashidi.ir</p>
+    </div>
+    <div class="middle">
+      <div class="seal" aria-hidden="true">
+        <span>د</span>
+        <svg viewBox="0 0 64 8"><path d="M6 5.5 C 22 2.5, 44 2.5, 58 4.5" stroke="#FAF7F1" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div class="name-block">
+        <p class="name">دانیال رشیدی</p>
+        <svg class="stroke" viewBox="0 0 320 10" aria-hidden="true"><path d="M4 7 C 80 2, 200 2, 316 6"/></svg>
+        <p class="tagline">نرم‌افزار، محصول و سفر</p>
+      </div>
+    </div>
+    <div class="bottom">
+      <p class="sections">پروژه‌ها · سفرها · ارتباط</p>
+      <p class="est">est. danialrashidi.ir</p>
+    </div>
+  </div>
+</body>
+</html>
