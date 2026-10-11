@@ -34,6 +34,9 @@ const travels = defineCollection({
     monogram: z.string().default("س"),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    imageWidth: z.number().optional(),
+    imageHeight: z.number().optional(),
+    imagePosition: z.string().optional(),
   }),
 });
 

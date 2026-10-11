@@ -2,7 +2,7 @@
 title: "Isbatab"
 faTitle: "ایسباتاب"
 description: "وب‌سایت شرکتی برای خدمات ایمنی، HSE و بازرسی فنی؛ حضوری رسمی برای مشتریان صنعتی، خدمات و گواهی‌ها."
-year: "۱۴۰۳"
+year: "۲۰۲۴"
 status: "تحویل‌شده — پروفایل پروژه"
 technologies: ["وب", "شرکتی", "خدمات"]
 liveUrl: "https://isbatab.ir"

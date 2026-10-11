@@ -163,7 +163,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
         href="/سفرها/"
         linkLabel="همه‌ی سفرها"
       />
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="travel-strip mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {travels.map((entry) => <TravelCard entry={entry} />)}
       </div>
     </section>

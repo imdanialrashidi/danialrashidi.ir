@@ -152,6 +152,22 @@ a.photo-frame:hover {
   border-radius: 8px;
 }
 
+/* نوار سفر در موبایل: اسنپ‌اسکرول افقی تک‌قابی (قرارداد دیزاین).
+   دسکتاپ همان گرید سه‌ستونه می‌ماند؛ فقط زیر sm به ردیف اسکرولی تبدیل می‌شود. */
+@media (max-width: 639px) {
+  .travel-strip {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: 1rem;
+    padding-block-end: 0.5rem;
+  }
+  .travel-strip > * {
+    flex: 0 0 78vw;
+    scroll-snap-align: start;
+  }
+}
+
 /* Typographic placeholder panels — honest, no fabricated UI */
 .panel-mono {
   font-family: var(--font-display);

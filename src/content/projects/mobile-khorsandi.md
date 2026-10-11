@@ -2,7 +2,7 @@
 title: "Mobile Khorsandi"
 faTitle: "موبایل خورسندی"
 description: "فروشگاه گوشی، لوازم جانبی و قطعات؛ دسته‌بندی کالا، جست‌وجو، سبد خرید و راهنمای خرید."
-year: "۱۴۰۳"
+year: "۲۰۲۴"
 status: "تحویل‌شده — پروفایل پروژه"
 technologies: ["وب", "فروشگاه اینترنتی"]
 liveUrl: "https://mobilekhorsandi.ir"

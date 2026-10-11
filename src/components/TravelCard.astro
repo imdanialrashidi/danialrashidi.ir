@@ -1,4 +1,7 @@
 ---
+/* کارت سفر — قاب پرتره ۴/۵ برای عکس‌های عمودی مالک.
+   هر عکس نقطه‌ی کانونی خودش را از imagePosition می‌گیرد تا چهره/سوژه
+   در کراپ بریده نشود. بدون عکس: پنل تایپوگرافیک صادقانه. */
 import type { CollectionEntry } from "astro:content";
 
 type Props = { entry: CollectionEntry<"travels"> };
@@ -6,6 +9,7 @@ const { entry } = Astro.props as Props;
 const key = entry.id.replace(/\.mdx?$/, "");
 const { data } = entry;
 const alt = data.imageAlt ?? `سفر به ${data.destination}`;
+const position = data.imagePosition ?? "50% 50%";
 ---
 
 <article class="photo-frame reveal travel-card" aria-labelledby={`travel-${key}`}>
@@ -15,12 +19,15 @@ const alt = data.imageAlt ?? `سفر به ${data.destination}`;
         <img
           src={data.image}
           alt={alt}
+          width={data.imageWidth}
+          height={data.imageHeight}
           loading="lazy"
           decoding="async"
-          class="travel-img block aspect-[4/3] w-full object-cover"
+          class="travel-img block aspect-[4/5] w-full object-cover"
+          style={`object-position: ${position};`}
         />
       ) : (
-        <div class="grid aspect-[4/3] place-items-center px-6 text-center">
+        <div class="grid aspect-[4/5] place-items-center px-6 text-center">
           <div>
             <p class="panel-mono text-6xl" style="color: var(--action);">{data.monogram}</p>
             <p class="mt-2 font-bold">{data.destination}</p>

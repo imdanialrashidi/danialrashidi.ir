@@ -2,7 +2,7 @@
 title: "PHP IELTS House"
 faTitle: "خانه‌ی آیلتس PHP"
 description: "وب‌سایت آموزشی برای یک آموزشگاه زبان در کرج؛ معرفی دوره‌ها، سطوح، نتایج و تعیین سطح."
-year: "۱۴۰۳"
+year: "۲۰۲۴"
 status: "تحویل‌شده — پروفایل پروژه"
 technologies: ["وب", "آموزشی"]
 liveUrl: "https://phpieltshouse.ir"
