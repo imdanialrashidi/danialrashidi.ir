@@ -1,20 +1,28 @@
 ---
 import { PROFILE } from "../config/site";
 
-/* قاب پرتره‌ی هیرو — عکس واقعی از PROFILE.photoSrc می‌آید.
-   مالک: برای عوض کردن عکس، فایل تازه را در public/images/ بگذار و فقط
-   photoSrc را در src/config/site.ts عوض کن. */
+/* قاب پرتره — پیش‌فرض عکس استودیویی PROFILE؛ هیروی خانه می‌تواند
+   با src/srcset/alt/ابعاد خودش بازنویسی کند (فقط صفحه‌ی اصلی). */
+type Props = { src?: string; srcset?: string; sizes?: string; alt?: string; width?: number; height?: number };
+const {
+  src = PROFILE.photoSrc,
+  srcset = "/images/Danial_photo-480.webp 480w, /images/Danial_photo-855.webp 855w",
+  sizes = "(max-width: 640px) 480px, 855px",
+  alt = PROFILE.photoAlt,
+  width = 855,
+  height = 1138,
+} = Astro.props as Props;
 ---
 
 <figure class="portrait photo-frame reveal" style="--reveal-delay: 150ms;" aria-label="پرتره‌ی دانیال رشیدی">
   <div class="relative overflow-hidden" style="background: var(--surface);">
     <img
-      src={PROFILE.photoSrc}
-      srcset="/images/Danial_photo-480.webp 480w, /images/Danial_photo-855.webp 855w"
-      sizes="(max-width: 640px) 480px, 855px"
-      alt={PROFILE.photoAlt}
-      width="855"
-      height="1138"
+      src={src}
+      srcset={srcset}
+      sizes={sizes}
+      alt={alt}
+      width={width}
+      height={height}
       loading="eager"
       fetchpriority="high"
       decoding="async"
