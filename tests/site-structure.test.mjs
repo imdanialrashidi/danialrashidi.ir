@@ -3,7 +3,7 @@
 // all routes exist, collections are complete, identity links are real,
 // and no payment data is invented.
 import { deepStrictEqual, ok } from "node:assert";
-import { readdirSync, readFileSync, existsSync } from "node:fs";
+import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { describe, it } from "node:test";
 
 const ROOT = new URL("../", import.meta.url).pathname;
@@ -54,6 +54,16 @@ describe("persian editorial slice", () => {
     const studyOrder = Number(frontmatter(`${ROOT}src/content/projects/study.md`).order);
     ok(novenoOrder < studyOrder, "Noveno must stay before the study center");
   });
+  it("study URL comes from SITE, not hardcoded component links", () => {
+    // One-config rule (docs/DESIGN.md): components never hard-code links.
+    const site = readFileSync(`${ROOT}src/config/site.ts`, "utf8");
+    ok(site.includes("https://study.danialrashidi.ir"), "SITE must define the study URL");
+    for (const file of ["src/pages/index.astro", "src/components/Footer.astro"]) {
+      const raw = readFileSync(`${ROOT}${file}`, "utf8");
+      ok(!raw.includes("https://study.danialrashidi.ir"), `${file} must not hardcode the study URL`);
+      ok(raw.includes("SITE.studyUrl"), `${file} must use SITE.studyUrl`);
+    }
+  });
 
   it("every project points at a real image file with Persian alt text", () => {
     // Guards the exact failure just seen: stale image paths (deleted SVG
@@ -97,12 +107,12 @@ describe("persian editorial slice", () => {
 
   it("surfaces the study center in hero, projects index, and footer sections", () => {
     const home = readFileSync(`${ROOT}src/pages/index.astro`, "utf8");
-    ok(home.includes("https://study.danialrashidi.ir"), "hero must link the study subdomain");
+    ok(home.includes("SITE.studyUrl"), "hero must link the study subdomain via SITE.studyUrl");
     ok(home.includes("/پروژه‌ها/study/"), "hero must link the study detail page");
     const projectsIndex = readFileSync(`${ROOT}src/pages/پروژه‌ها/index.astro`, "utf8");
     ok(projectsIndex.includes("۰۶ پروژه"), "projects index count must reflect six projects");
     const footer = readFileSync(`${ROOT}src/components/Footer.astro`, "utf8");
-    ok(footer.includes("https://study.danialrashidi.ir"), "footer sections must link the study center");
+    ok(footer.includes("SITE.studyUrl"), "footer sections must link the study center via SITE.studyUrl");
     ok(footer.includes("مرکز مطالعه"), "footer study label missing");
   });
 
@@ -119,6 +129,14 @@ describe("persian editorial slice", () => {
       ok(img.startsWith("/images/travels/"), `${file} image must live under /images/travels/`);
       ok(existsSync(`${ROOT}public${img}`), `${file} image file missing: public${img}`);
       ok(alt && alt.length > 10, `${file} needs a descriptive Persian imageAlt`);
+    }
+  });
+  it("travel photos stay at web weight", () => {
+    // Guards the exact bloat just fixed: camera-resolution uploads served raw.
+    // 250KB is headroom above the ~100-180KB optimized outputs, not a target.
+    for (const file of ["dalakhani.jpg", "dareh-marg.jpg", "yakh-morad.jpg"]) {
+      const size = statSync(`${ROOT}public/images/travels/${file}`).size;
+      ok(size < 250 * 1024, `${file} is ${size} bytes, over the 250KB web budget`);
     }
   });
 
@@ -160,5 +178,27 @@ describe("persian editorial slice", () => {
       const raw = readFileSync(`${ROOT}src/content/projects/${file}`, "utf8");
       ok(/^imageWidth: \d+$/m.test(raw) && /^imageHeight: \d+$/m.test(raw), `${file} needs intrinsic image dimensions (CLS guard)`);
     }
+  });
+  it("every target=_blank link carries rel=noopener", async () => {
+    // async callback: the execSync import below uses await.
+    // Reverse-tabnabbing guard: all current sites comply by convention;
+    // this test turns the convention into a gate invariant. Tag-level regex
+    // (not line grep) because attributes legitimately span lines in .astro.
+    const { execSync } = await import("node:child_process");
+    const files = execSync("git -c core.quotepath=off ls-files 'src/*.astro' 'src/**/*.astro'", { cwd: ROOT, encoding: "utf8" })
+      .split("\n").filter(Boolean);
+    ok(files.length > 0, "expected tracked .astro files");
+    let blankCount = 0;
+    for (const file of files) {
+      const raw = readFileSync(`${ROOT}${file}`, "utf8");
+      const tags = raw.match(/<a[\s\S]*?>/g) ?? [];
+      for (const tag of tags) {
+        if (!tag.includes('target="_blank"')) continue;
+        blankCount++;
+        const rel = tag.match(/rel="([^"]*)"/)?.[1] ?? "";
+        ok(rel.split(/\s+/).includes("noopener"), `${file} has target=_blank without rel=noopener: ${tag.slice(0, 120)}`);
+      }
+    }
+    ok(blankCount > 0, "expected at least one target=_blank link");
   });
 });

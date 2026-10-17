@@ -7,8 +7,8 @@ order: 5
 monogram: "مرگ"
 image: "/images/travels/dareh-marg.jpg"
 imageAlt: "دره‌نورد با لباس زرد و کلاه سیاه در حال فرود با طناب از دیواره صخره‌ای دره مرگ، با چشم‌انداز دره سبز پشت سر"
-imageWidth: 960
-imageHeight: 1280
+imageWidth: 768
+imageHeight: 1024
 imagePosition: "38% 45%"
 ---
 

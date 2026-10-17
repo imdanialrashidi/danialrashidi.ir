@@ -88,7 +88,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
           </div>
           <p class="flex flex-wrap items-center gap-4 sm:shrink-0">
             <a
-              href="https://study.danialrashidi.ir"
+              href={SITE.studyUrl}
               target="_blank"
               rel="noopener"
               class="btn-primary inline-flex min-h-12 items-center rounded-lg px-6 font-bold"
@@ -163,7 +163,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
         href="/سفرها/"
         linkLabel="همه‌ی سفرها"
       />
-      <div class="travel-strip mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="travel-strip reveal mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {travels.map((entry) => <TravelCard entry={entry} />)}
       </div>
     </section>

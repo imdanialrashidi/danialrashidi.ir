@@ -18,7 +18,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
       </p>
     </section>
 
-    <section class="travel-strip grid gap-6 pb-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="سفرها">
+    <section class="travel-strip reveal grid gap-6 pb-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="سفرها">
       {travels.map((entry) => <TravelCard entry={entry} />)}
     </section>
 

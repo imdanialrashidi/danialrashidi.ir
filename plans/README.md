@@ -21,7 +21,16 @@ via the `ai-changes` lane), and update your row when done.
 | 006 | Remove stale photo instructions + dead placeholder SVG | P3 | S | — | DONE |
 | 007 | Guard travel-image alt text like projects | P3 | S | — | DONE |
 | 008 | Convert Noveno hero shot PNG → WebP | P3 | S | — | DONE |
+| 009 | Study URL from `SITE`, not hardcoded literals | P1 | S | — | DONE |
+| 010 | Travel photos at web weight, not camera weight | P2 | S | — | DONE |
+| 011 | Nav active-state helper + حمایت current marking | P1 | S | — | DONE |
+| 012 | `target=_blank → rel=noopener` structural guard | P2 | S | — | DONE |
 
+Execute 009→012 in numeric order; no dependencies between them, but note the
+interactions below. Planned at commit `2f35e87` (2026-10-14). Worktree caveat:
+unrelated staged changes exist (`.pi/` → `.omp/` migration deletions plus
+`.gitignore` / `quality.yml` edits) — each plan's drift check accounts for this;
+rely on `git status` + "Current state" excerpts, not bare `git diff` vs the SHA.
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 
 Execute in numeric order (001→008) unless blocked; only 005 has a true
@@ -40,6 +49,8 @@ non-overlapping files (`qa-screenshots.mjs` / `site-structure.test.mjs` SEO test
 - 002's maintenance note asks future test files (004, 007's additions live in
   the existing file) to be appended to the gate — whoever lands 004 checks
   whether 002's gate needs the new filename added.
+- 009 ↔ 012 touch adjacent concerns on the same links (009 moves the study `href`s into `SITE`; 012 guards every `_blank` `rel`). No ordering constraint — 012's tag scan passes before or after 009 — but if parallelizing, assign both to the same executor: 009's Step-2 grep expectation ("only match is site.ts") and 012's Step-1 count (18 sites) each assume the other's change state.
+- 011 wires `tests/nav.test.mjs` into `package.json` + `scripts/project-verify.sh`, following the same append pattern as 004 — whoever lands 011 checks the gate lists all three files.
 
 ## Findings considered and rejected
 

@@ -27,6 +27,7 @@ export const SITE = {
   instagramHandle: "@imdanialrashidi",
   x: "https://x.com/imdanialrashidi",
   xHandle: "@imdanialrashidi",
+  studyUrl: "https://study.danialrashidi.ir",
 } as const;
 
 /* پروفایل شخصی — عکس هیرو و درباره از این‌جا می‌آید.
@@ -72,3 +73,8 @@ export const MAIN_NAV: NavItem[] = [
 ];
 
 export const SUPPORT_HREF = "/حمایت/";
+
+export function isActivePath(href: string, current: string): boolean {
+  if (href === "/") return current === "/";
+  return current.startsWith(href);
+}

@@ -1,13 +1,10 @@
 ---
-import { MAIN_NAV, SITE, SUPPORT_HREF } from "../config/site";
+import { MAIN_NAV, SITE, SUPPORT_HREF, isActivePath } from "../config/site";
 import BrandMark from "./BrandMark.astro";
 
 const { path = "/" } = Astro.props as { path?: string };
 
-function isActive(href: string, current: string) {
-  if (href === "/") return current === "/";
-  return current.startsWith(href);
-}
+const isActive = isActivePath;
 ---
 
 <header
@@ -32,7 +29,12 @@ function isActive(href: string, current: string) {
           </a>
         ))
       }
-      <a href={SUPPORT_HREF} class="text-[0.95rem]" style="color: var(--muted);">
+      <a
+        href={SUPPORT_HREF}
+        aria-current={isActive(SUPPORT_HREF, path) ? "page" : undefined}
+        class="quiet-link text-[0.95rem]"
+        style={isActive(SUPPORT_HREF, path) ? "color: var(--accent); text-decoration-color: var(--accent);" : "color: var(--muted);"}
+      >
         حمایت
       </a>
     </nav>

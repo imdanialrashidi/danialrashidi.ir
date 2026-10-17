@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "lint": "echo \"no lint configured (static Astro slice)\"",
-    "test": "node --test tests/",
+    "test": "node --test tests/site-structure.test.mjs tests/support-card.test.mjs tests/nav.test.mjs",
     "verify:fast": "npm run typecheck",
     "verify:feature": "npm run typecheck && npm run build"
   },
