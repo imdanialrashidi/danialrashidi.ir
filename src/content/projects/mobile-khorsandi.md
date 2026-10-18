@@ -8,10 +8,10 @@ technologies: ["وب", "فروشگاه اینترنتی"]
 liveUrl: "https://mobilekhorsandi.ir"
 featured: false
 order: 5
-image: "/images/projects/mobile-khorsandi-hero.e3e110cc.webp"
-imageAlt: "اسکرین‌شات صفحه‌ی اصلی موبایل خورسندی — بنر محصولات"
-imageWidth: 1440
-imageHeight: 900
+image: "/images/projects/mobile-khorsandi-hero.webp"
+imageAlt: "اسکرین‌شات صفحه‌ی اصلی موبایل خورسندی — هدر آبی، بنر فروشگاه و دسته‌بندی لوازم جانبی"
+imageWidth: 1920
+imageHeight: 936
 monogram: "M"
 ---
 
