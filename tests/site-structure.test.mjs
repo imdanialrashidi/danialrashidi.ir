@@ -134,9 +134,15 @@ describe("persian editorial slice", () => {
   it("travel photos stay at web weight", () => {
     // Guards the exact bloat just fixed: camera-resolution uploads served raw.
     // 250KB is headroom above the ~100-180KB optimized outputs, not a target.
-    for (const file of ["dalakhani.jpg", "dareh-marg.jpg", "yakh-morad.jpg"]) {
-      const size = statSync(`${ROOT}public/images/travels/${file}`).size;
-      ok(size < 250 * 1024, `${file} is ${size} bytes, over the 250KB web budget`);
+    // Scan frontmatter so a newly added photo cannot bypass the budget.
+    const files = readdirSync(`${ROOT}src/content/travels`).filter((f) => f.endsWith(".md"));
+    const images = files
+      .map((file) => ({ file, image: frontmatter(`${ROOT}src/content/travels/${file}`).image }))
+      .filter((entry) => entry.image);
+    ok(images.length > 0, "expected at least one travel image");
+    for (const { file, image } of images) {
+      const size = statSync(`${ROOT}public${image}`).size;
+      ok(size < 250 * 1024, `${file}: ${image} is ${size} bytes, over the 250KB web budget`);
     }
   });
 
@@ -147,7 +153,10 @@ describe("persian editorial slice", () => {
     }
     const config = readFileSync(`${ROOT}astro.config.mjs`, "utf8");
     ok(config.includes("sitemap()"), "astro config missing sitemap() integration");
-    ok(existsSync(`${ROOT}public/robots.txt`), "robots.txt missing");
+    ok(config.includes("SITE.domain"), "astro config must use SITE.domain, not a literal domain");
+    ok(existsSync(`${ROOT}src/pages/robots.txt.ts`), "robots.txt endpoint missing");
+    ok(!existsSync(`${ROOT}public/robots.txt`), "robots.txt must be generated from SITE.domain, not duplicated in public/");
+    ok(readFileSync(`${ROOT}src/pages/robots.txt.ts`, "utf8").includes("SITE.domain"), "robots.txt must use SITE.domain");
     ok(existsSync(`${ROOT}public/favicon.svg`), "favicon missing");
   });
 
@@ -200,5 +209,87 @@ describe("persian editorial slice", () => {
       }
     }
     ok(blankCount > 0, "expected at least one target=_blank link");
+  });
+  it("keeps reveal content visible when JavaScript is unavailable", () => {
+    // Progressive enhancement: .reveal must not be hidden by default. The
+    // hidden state is opt-in via html.js, which only the Base head script
+    // adds. This fails on the old `.reveal { opacity: 0 }` rule.
+    const base = readFileSync(`${ROOT}src/layouts/Base.astro`, "utf8");
+    const css = readFileSync(`${ROOT}src/styles/global.css`, "utf8");
+    ok(base.includes('classList.add("js")'), "Base must mark JS-enabled documents");
+    ok(base.includes('"astro:before-swap"'), "the js class must survive view-transition swaps");
+    ok(css.includes("html.js .reveal"), "reveal hiding must be scoped to html.js");
+    ok(/^\.reveal\s*\{[^}]*opacity:\s*1/m.test(css), "reveal must default to visible");
+    ok(!/^\.reveal\s*\{[^}]*opacity:\s*0/m.test(css), "reveal must not be hidden by default");
+  });
+  it("re-applies the OS theme preference after view transitions", () => {
+    // ClientRouter swaps in SSR data-theme="light"; the helper must fall back
+    // to prefers-color-scheme when no explicit choice is stored. This fails
+    // on the old helper, which returned without touching the DOM.
+    const base = readFileSync(`${ROOT}src/layouts/Base.astro`, "utf8");
+    const helper = base.match(/function drApplySavedTheme\(\) \{([\s\S]*?)\n      \}/)?.[1] ?? "";
+    ok(helper, "drApplySavedTheme helper not found");
+    ok(helper.includes("prefers-color-scheme"), "theme helper must honor the OS preference when no saved choice exists");
+    ok(/saved === "dark" \|\| saved === "light"/.test(helper), "a saved choice must still win");
+  });
+  it("exposes social links as links, not list items", () => {
+    // role="listitem" on an <a> overrides the link role. Structure is the
+    // source of truth here: a real ul/li list with real anchors inside.
+    for (const file of ["src/components/SocialIcons.astro", "src/components/Footer.astro"]) {
+      const raw = readFileSync(`${ROOT}${file}`, "utf8");
+      ok(!raw.includes('role="listitem"'), `${file}: anchors must keep link semantics`);
+      ok(!raw.includes('role="list"'), `${file}: use a real ul/li list, not ARIA list roles`);
+      ok(/<ul[\s>]/.test(raw), `${file}: social links must be a real ul/li list`);
+    }
+  });
+  it("ships responsive variants for every project image", () => {
+    // ProjectImage derives `<stem>-480.webp` / `<stem>-960.webp` for srcset.
+    // If an image is replaced without regenerating variants, the page would
+    // request a missing file; fail here instead.
+    const files = readdirSync(`${ROOT}src/content/projects`).filter((f) => f.endsWith(".md"));
+    for (const file of files) {
+      const image = frontmatter(`${ROOT}src/content/projects/${file}`).image;
+      ok(image, `${file} missing image`);
+      const stem = image.replace(/\.[^.]+$/, "");
+      for (const width of [480, 960]) {
+        const variant = `${ROOT}public${stem}-${width}.webp`;
+        ok(existsSync(variant), `${file} missing ${width}w variant`);
+        ok(statSync(variant).size < statSync(`${ROOT}public${image}`).size, `${file} ${width}w variant is not smaller`);
+      }
+    }
+  });
+
+  it("keeps social icon markup in one component", () => {
+    for (const file of [
+      "src/components/SocialIcons.astro",
+      "src/components/Footer.astro",
+      "src/components/InstagramBand.astro",
+    ]) {
+      const raw = readFileSync(`${ROOT}${file}`, "utf8");
+      ok(raw.includes("SocialIcon"), `${file} must use the shared SocialIcon`);
+      ok(!raw.includes('<svg viewBox="0 0 24 24"'), `${file} must not inline social SVG markup`);
+    }
+  });
+
+  it("renders the authored travel note body", () => {
+    // The Markdown body is the personal note; the card must render it instead
+    // of showing only frontmatter metadata.
+    const card = readFileSync(`${ROOT}src/components/TravelCard.astro`, "utf8");
+    ok(card.includes("await render(entry)"), "TravelCard must render the entry body");
+    ok(card.includes("<Content />"), "TravelCard must output the rendered note");
+    const raw = readFileSync(`${ROOT}src/content/travels/dalakhani.md`, "utf8");
+    const body = raw.split("---")[2] ?? "";
+    ok(body.trim().length > 0, "travel note body must not be empty");
+  });
+
+  it("ships a social card for every project", () => {
+    const files = readdirSync(`${ROOT}src/content/projects`).filter((f) => f.endsWith(".md"));
+    for (const file of files) {
+      const slug = file.replace(/\.md$/, "");
+      const card = `${ROOT}public/images/og/projects/${slug}.jpg`;
+      ok(existsSync(card), `${file} missing OG card`);
+      const bytes = readFileSync(card);
+      ok(bytes[0] === 0xff && bytes[1] === 0xd8, `${slug} OG card must be a JPEG`);
+    }
   });
 });

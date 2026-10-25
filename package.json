@@ -7,9 +7,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "assets:projects": "node scripts/generate-project-variants.mjs",
+    "assets:og": "node scripts/generate-project-og.mjs",
     "typecheck": "astro check",
     "lint": "echo \"no lint configured (static Astro slice)\"",
-    "test": "node --test tests/site-structure.test.mjs tests/support-card.test.mjs tests/nav.test.mjs",
+    "test": "node --test tests/",
     "verify:fast": "npm run typecheck",
     "verify:feature": "npm run typecheck && npm run build"
   },

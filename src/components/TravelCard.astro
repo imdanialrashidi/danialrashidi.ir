@@ -2,12 +2,13 @@
 /* کارت سفر — قاب پرتره ۴/۵ برای عکس‌های عمودی مالک.
    هر عکس نقطه‌ی کانونی خودش را از imagePosition می‌گیرد تا چهره/سوژه
    در کراپ بریده نشود. بدون عکس: پنل تایپوگرافیک صادقانه. */
-import type { CollectionEntry } from "astro:content";
+import { render, type CollectionEntry } from "astro:content";
 
 type Props = { entry: CollectionEntry<"travels"> };
 const { entry } = Astro.props as Props;
 const key = entry.id.replace(/\.mdx?$/, "");
 const { data } = entry;
+const { Content } = await render(entry);
 const alt = data.imageAlt ?? `سفر به ${data.destination}`;
 const position = data.imagePosition ?? "50% 50%";
 ---
@@ -41,6 +42,9 @@ const position = data.imagePosition ?? "50% 50%";
     <h3 id={`travel-${key}`} class="font-bold">{data.destination}</h3>
     <p class="mt-1 font-mono text-xs" style="color: var(--muted);">{data.date}</p>
     <p class="mt-2 text-sm" style="color: var(--muted);">{data.description}</p>
+    <div class="travel-note mt-2 text-sm" style="color: var(--muted);">
+      <Content />
+    </div>
     {
       data.instagramUrl && (
         <a href={data.instagramUrl} target="_blank" rel="noopener" class="quiet-link mt-3 inline-flex min-h-11 items-center text-sm">
@@ -57,5 +61,11 @@ const position = data.imagePosition ?? "50% 50%";
   }
   .travel-card:hover .travel-img {
     transform: scale(1.04);
+  }
+  .travel-note :global(p) {
+    margin: 0;
+  }
+  .travel-note :global(p + p) {
+    margin-top: 0.5rem;
   }
 </style>

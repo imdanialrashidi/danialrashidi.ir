@@ -1,79 +1,124 @@
-# omp Production Workflow Template
+# danialrashidi.ir
 
-A minimal, evidence-driven workflow for [oh-my-pi (omp)](https://omp.sh) — a batteries-included coding agent with LSP, persistent eval runtimes, parallel subagents, built-in search/browser, and session continuity already in the box.
+Danial Rashidi's personal site: a Persian, right-to-left home for projects,
+travel notes, an about page, contact links, and a quiet support page. It is a
+fully static Astro site with no backend, database, auth, forms, or analytics —
+content lives in Markdown and is built to plain HTML.
 
-This template adds only what omp does **not** ship: a short always-loaded agent map, four workflow commands, three skills, product/design/architecture/quality contracts, a scoped PR helper, and one verification gate. Everything omp already does natively (planning, debugging, memory, handoff, model routing) is referenced, not reimplemented.
+Live at <https://danialrashidi.ir>.
 
-## What this template provides
+## Stack
 
-- `AGENTS.md` — short progressive-disclosure map; the only always-loaded workflow file.
-- `.omp/RULES.md` — sticky hard requirements (delivery scope, secrets, no stubs, run-before-yield).
-- `.omp/commands/` — `/spec`, `/build`, `/review`, `/ship`. Deliberately no `plan`/`handoff`/`resume` commands: omp ships those natively (`/plan` mode, `/handoff`, `/resume`). `/advisor` is the native second-model watch, enabled per session — not a command this template owns.
-- `.omp/skills/` — `quick-fix`, `test-design`, `verify`. Deliberately no browser/design/eval skills: omp ships `browser`, `lsp`, `debug`, `web_search`, `eval`, and `task` natively.
-- `docs/` — `HARNESS.md` (operating playbook), `QUALITY.md` (acceptance bar), `PRODUCT.md`, `ARCHITECTURE.md`, `DESIGN.md` (product decisions), `GIT_POLICY.md` (scoped delivery), `exec-plans/` (durable state for Complex work only).
-- `scripts/omp-pr.mjs` — scoped `ai-changes` → `main` PR helper: explicit files only, secret scan, compare-and-swap push guard, evidence comments that never overwrite owner notes.
-- `scripts/verify.sh` — canonical gate: template self-checks, then the repo's own cheapest applicable lane.
-- `.github/workflows/quality.yml` — CI runs the gate. Nothing else.
+- Astro 7 (static output, Persian routes, Markdown content collections)
+- TypeScript + Tailwind CSS 4 via `@tailwindcss/vite`
+- Self-hosted Vazirmatn (`@fontsource/vazirmatn`) — no third-party font CDN
+- GitHub Pages deployment via GitHub Actions
 
-## What it deliberately omits (omp already has it)
-
-| pi-template piece | Why it is not here |
-|---|---|
-| Provider/model routing, launcher flags, `models.env` | omp ships 60+ providers, per-role routing (`/model`, `--smol/--slow/--plan`), fallback chains |
-| `pi-sub-agent`, guard scripts, smart-read harness | omp core is native Rust: in-process search, summaries, approval tiers, `task` subagents |
-| Playwright MCP, `browser-qa` skill, web-search package | omp ships `browser`, `computer`, and 23-backend `web_search` natively |
-| Eval harness, `EVALUATION.md`, `RESEARCH.md` | no benchmark/eval scaffolding belongs in a minimal workflow template |
-| `/plan`, `/handoff`, `/resume` commands | omp natives: `/plan` mode, `/handoff` + `/resume`, `/memory` — plus `/review` here for independent review (no native `/review` command exists) |
-| Frontend-design skill + rubric | replaced by a compact `docs/DESIGN.md` contract with budgets and hard gates |
-| `TOOLING_SETUP.md`, sandbox/docker files | omp is one binary (`install | sh`, brew, bun, nix, ps1); no container story needed |
-
-## Install
-
-Install omp ([docs](https://omp.sh)):
+## Quick start
 
 ```sh
-curl -fsSL https://omp.sh/install | sh
+npm ci
+npm run dev          # http://localhost:4321
 ```
 
-Then open this repository in omp. No packages, no MCP servers, no launcher. Project config lives in `.omp/` and loads automatically; global settings stay in `~/.omp/agent/config.yml` (see `.omp/config.yml` for the documented project-override pattern).
+Before handing off a change:
 
-Authenticate and pick a model:
-
-```text
-/login
-/model
+```sh
+npm run typecheck
+npm test
+npm run build
+bash scripts/verify.sh
 ```
 
-## راهنمای سریع (خلاصه `omp_workflow_guide.md`)
+Node.js >=22.19.0 is required (see `package.json` `engines`).
 
-چهار قدم: اول بگو **چی** می‌خواهی (`/spec`)، بعد بگو **بساز** (`/build`)، بعد خودت `/review` را اجرا کن تا نگاه دوم بیندازد، آخر **تحویل بگیر** (`/ship`). تغییر ریز؟ `/skill:quick-fix`.
+`bash scripts/verify.sh` is the canonical gate. It runs the small template
+self-checks, then delegates to `scripts/project-verify.sh`, which runs
+typecheck, the Node test files, and a production build in that order. `npm
+test` alone runs the structural/unit tests: site structure, the support card,
+and the navigation active-state helper.
 
-- **پرامپت خوب = نتیجه قابل مشاهده، نه راه‌حل.** نگو «با فلان تکنیک درستش کن»؛ بگو «کاربر باید چه ببیند، و اگر خراب بود چه ببیند». ۳ تا ۷ باید بگو، نه بیشتر.
-- **همیشه راه منفی را هم بگو** (خطا، خالی، قطعی، دسترسی) و آخرش اضافه کن: «بگو چطور تستش کردی».
-- **محدوده را ببند** («به بقیه دست نزن») و **تیکه را کوچک کن** — تیکه کوچکِ تمام‌شده بهتر از تیکه بزرگِ نصفه است.
-- **«تمام شد» بدون مدرک = تمام نشده.** همیشه بپرس: «شاهدت چیه؟»
-- جزئیات کامل، مثال‌ها و جدول عیب‌یابی: [`omp_workflow_guide.md`](omp_workflow_guide.md).
+## Routes
 
-## Daily usage
+| Route | Source | Purpose |
+|---|---|---|
+| `/` | `src/pages/index.astro` | home |
+| `/درباره/` | `src/pages/درباره/index.astro` | about |
+| `/پروژه‌ها/` | `src/pages/پروژه‌ها/index.astro` | project index |
+| `/پروژه‌ها/<slug>/` | `src/pages/پروژه‌ها/[slug].astro` | project detail |
+| `/سفرها/` | `src/pages/سفرها/index.astro` | travel notes |
+| `/حمایت/` | `src/pages/حمایت/index.astro` | support |
+| `/ارتباط/` | `src/pages/ارتباط/index.astro` | contact |
+| `/404` | `src/pages/404.astro` | not found |
 
-```text
-/build Implement <accepted outcome> and verify it.
-/spec <feature>        # implementation-ready contract, no code
-/review                # independent evidence-backed verdict
-/ship                  # full gate + scoped ai-changes PR (opt-in team delivery)
-/skill:quick-fix       # obvious low-risk edit, one targeted proof
+Persian filenames are intentional; URLs are percent-encoded in links.
+`trailingSlash: "always"` and the canonical site URL are set in
+`astro.config.mjs`.
+
+## Content
+
+- Projects live in `src/content/projects/*.md`; the frontmatter schema is
+  `src/content.config.ts`. The test suite asserts exactly six projects and the
+  “۰۶ پروژه” count on the index page, so update
+  `tests/site-structure.test.mjs` when adding or removing one.
+- Travels live in `src/content/travels/*.md`; each entry needs `destination`,
+  `date`, and `description`. Travel photos are optional; when an entry sets
+  `image`, it also needs a descriptive Persian `imageAlt`, and the file must
+  exist under `public/images/travels/`.
+- A travel entry's Markdown body is rendered as the personal note beneath its
+  frontmatter description; write it as prose, not as another metadata field.
+- Project images live in `public/images/projects/`. A project image needs
+  `imageAlt` plus intrinsic `imageWidth`/`imageHeight` (a layout-shift guard
+  enforced by the tests).
+- Project screenshots also ship 480w/960w WebP variants
+  (`<stem>-480.webp`, `<stem>-960.webp`) used by the `srcset` in
+  `ProjectImage`. After replacing a screenshot, run `npm run assets:projects`
+  (requires ImageMagick `magick`) and commit the variants.
+- Each project has a 1200×630 JPEG social card at
+  `public/images/og/projects/<slug>.jpg`, used by the project detail page's
+  Open Graph/Twitter metadata. After replacing a project screenshot, run
+  `npm run assets:og` (requires ImageMagick `magick`) and commit the card.
+- Identity, social links, navigation order, and the study-center URL are
+  centralized in `src/config/site.ts`. Support data is in
+  `src/config/support.ts`; an unconfigured card renders an honest empty state
+  rather than a placeholder number.
+- Design tokens live in `src/styles/tokens.css`; the owner's design direction
+  and rationale are in `docs/DESIGN.md`.
+
+## Verification and QA
+
+The gate:
+
+```sh
+bash scripts/verify.sh
 ```
 
-Native companions: `/plan` for planning, `/advisor` for High-risk second-model review (extra cost), `/handoff` + `/resume` across sessions, `ultrathink` / `orchestrate` per-turn modes, `/omfg` to forge a rule for a recurring misbehavior.
+Optional browser QA against a built copy of the site:
 
-## Workflow
-
-```text
-intent → classify → acceptance contract → focused discovery (lsp first)
-→ one primary writer → targeted verification → /review when justified
-→ bounded repair (≤2 rounds) → /ship → acceptance → evidence report
+```sh
+npm run build
+python3 -m http.server 4321 -d dist
+QA_BASE=http://127.0.0.1:4321 node scripts/qa-screenshots.mjs
 ```
 
-Long-running work: `/plan` → incremental work → `/handoff` → fresh context → `/resume`, with durable state in `docs/exec-plans/active/` only when continuity needs it.
+The script expects Chromium at `/usr/bin/chromium`. It checks the home, about,
+projects, project detail, travels, support, and contact routes at desktop and
+mobile widths, collecting console errors, failed requests, horizontal overflow,
+and page metadata, and writes screenshots and a report to `.artifacts/qa/`
+(ignored by Git). This harness is not part of the CI gate.
 
-Delivery, solo by default: leave the proven change in the working tree and report its state. Team PR only on explicit request: `node scripts/omp-pr.mjs prepare` before editing, then `deliver --message ... --title ... --body-file .artifacts/omp-pr.md --file <path>...` after verification. No per-task branches, no main writes, no auto-merge. Read-only/local-only work never publishes; `OMP_PR_DELIVERY=off` opts out.
+## Deployment
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which installs from
+the lockfile, builds, uploads `dist/`, and deploys to GitHub Pages.
+`.github/workflows/quality.yml` runs the same gate on pull requests and pushes
+to `main`.
+
+## Design and quality contracts
+
+- `docs/DESIGN.md` — owner direction, tokens, responsive and visual contract.
+- `docs/QUALITY.md` — acceptance and evidence rules.
+- `AGENTS.md` — how agent sessions work in this repository, and where to start
+  reading.
+- `docs/GIT_POLICY.md` — delivery policy: solo by default, leave changes in the
+  working tree unless the owner asks for a PR.

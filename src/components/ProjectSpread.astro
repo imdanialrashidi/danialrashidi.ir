@@ -16,7 +16,7 @@ const detailHref = `/پروژه‌ها/${slug}/`;
     tabindex="-1"
     aria-hidden="true"
   >
-    <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} />
+    <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} sizes="(max-width: 768px) 100vw, 45vw" />
   </a>
   <div class:list={[flip && "md:order-1"]}>
     <p class="font-mono text-xs" style="color: var(--accent);">

@@ -22,6 +22,8 @@ const { data } = project;
   title={data.faTitle ?? data.title}
   description={data.description}
   ogType="article"
+  ogImage={`/images/og/projects/${slug}.jpg`}
+  ogImageAlt={data.imageAlt ?? `تصویر پروژه‌ی ${data.faTitle ?? data.title}`}
 >
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     <nav class="pt-10 text-sm" aria-label="مسیر">
@@ -68,7 +70,7 @@ const { data } = project;
         <p class="mt-6" style="color: var(--muted);">— دانیال</p>
       </div>
       <aside class="photo-frame h-fit" aria-label="قاب پروژه">
-        <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} eager />
+        <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} eager sizes="(max-width: 768px) 100vw, 480px" />
         <div class="border-t px-5 py-4" style="border-color: var(--border);">
           <p class="text-sm font-bold">{data.faTitle ?? data.title}</p>
           <p class="font-mono text-xs" style="color: var(--muted);">قاب پروژه · {data.year}</p>

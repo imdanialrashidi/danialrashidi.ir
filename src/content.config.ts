@@ -1,5 +1,5 @@
 import { defineCollection } from "astro:content";
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const projects = defineCollection({
@@ -11,8 +11,8 @@ const projects = defineCollection({
     year: z.string(),
     status: z.string(),
     technologies: z.array(z.string()),
-    liveUrl: z.string().url().optional(),
-    githubUrl: z.string().url().optional(),
+    liveUrl: z.url().optional(),
+    githubUrl: z.url().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(99),
     monogram: z.string().default("د"),
@@ -29,7 +29,7 @@ const travels = defineCollection({
     destination: z.string(),
     date: z.string(),
     description: z.string(),
-    instagramUrl: z.string().url().optional(),
+    instagramUrl: z.url().optional(),
     order: z.number().default(99),
     monogram: z.string().default("س"),
     image: z.string().optional(),

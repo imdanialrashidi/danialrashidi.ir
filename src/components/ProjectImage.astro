@@ -11,10 +11,15 @@ type Props = {
   faTitle?: string;
   monogram: string;
   eager?: boolean;
+  sizes?: string;
 };
 
-const { image, imageAlt, imageWidth, imageHeight, title, faTitle, monogram, eager = false } = Astro.props as Props;
+const { image, imageAlt, imageWidth, imageHeight, title, faTitle, monogram, eager = false, sizes = "100vw" } = Astro.props as Props;
 const alt = imageAlt ?? `تصویر پروژه‌ی ${faTitle ?? title}`;
+const stem = image?.replace(/\.[^.]+$/, "");
+const variants = image && stem ? [`${stem}-480.webp 480w`, `${stem}-960.webp 960w`] : [];
+if (image && imageWidth) variants.push(`${image} ${imageWidth}w`);
+const srcset = variants.length ? variants.join(", ") : undefined;
 ---
 
 {
@@ -22,6 +27,8 @@ const alt = imageAlt ?? `تصویر پروژه‌ی ${faTitle ?? title}`;
     <span class="project-img-wrap block overflow-hidden" style="background: var(--surface);">
       <img
         src={image}
+        srcset={srcset}
+        sizes={sizes}
         alt={alt}
         width={imageWidth}
         height={imageHeight}

@@ -15,11 +15,21 @@ type Props = {
   path?: string;
   noindex?: boolean;
   ogType?: "website" | "article";
+  ogImage?: string;
+  ogImageAlt?: string;
 };
 
-const { title, description = SITE.description, path = "/", noindex = false, ogType = "website" } = Astro.props;
+const {
+  title,
+  description = SITE.description,
+  path = "/",
+  noindex = false,
+  ogType = "website",
+  ogImage = SITE.ogImage,
+  ogImageAlt = SITE.ogImageAlt,
+} = Astro.props;
 const canonical = new URL(path, SITE.domain).toString();
-const ogImage = new URL(SITE.ogImage, SITE.domain).toString();
+const ogImageUrl = new URL(ogImage, SITE.domain).toString();
 const schema = [
   {
     "@context": "https://schema.org",
@@ -59,15 +69,15 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={SITE.ogImageAlt} />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
@@ -78,6 +88,7 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
     <meta name="theme-color" content="#131511" media="(prefers-color-scheme: dark)" />
 
     <script is:inline>
+      try { document.documentElement.classList.add("js"); } catch {}
       try {
         const saved = localStorage.getItem("dr-theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -108,13 +119,17 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
       function drApplySavedTheme() {
         // View-transition swaps bring in the incoming page's <html> attributes
         // (SSR default data-theme="light"), so re-assert the saved choice.
+        // With no saved choice, follow the OS preference again; otherwise the
+        // first client-side navigation drops a dark-mode visitor to light.
+        var saved = null;
         try {
-          var saved = localStorage.getItem("dr-theme");
-          if (saved === "dark" || saved === "light") {
-            document.documentElement.dataset.theme = saved;
-            return;
-          }
+          saved = localStorage.getItem("dr-theme");
         } catch {}
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+          saved === "dark" || saved === "light"
+            ? saved
+            : prefersDark ? "dark" : "light";
       }
       function drSyncThemeToggle() {
         var dark = document.documentElement.dataset.theme === "dark";
@@ -150,6 +165,9 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
       if (!window.__drBound) {
         window.__drBound = true;
         document.addEventListener("astro:page-load", drInit);
+        document.addEventListener("astro:before-swap", (event) => {
+          event.newDocument.documentElement.classList.add("js");
+        });
         document.addEventListener("click", (event) => {
         const toggle = event.target instanceof Element ? event.target.closest("[data-theme-toggle]") : null;
         if (toggle) {

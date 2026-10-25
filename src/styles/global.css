@@ -102,7 +102,14 @@ body {
   animation-delay: var(--reveal-delay, 0ms);
 }
 
+/* Visible by default. Only JS-enabled documents opt into the entrance
+   animation; if scripts are blocked or fail, the content still renders. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal {
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -111,7 +118,7 @@ body {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.reveal.is-visible,
+html.js .reveal.is-visible,
 .hero-enter.is-visible {
   opacity: 1;
   transform: none;
@@ -200,7 +207,7 @@ a.photo-frame:hover {
   }
 
   .hero-enter,
-  .reveal {
+  html.js .reveal {
     opacity: 1;
     transform: none;
     animation: none;
