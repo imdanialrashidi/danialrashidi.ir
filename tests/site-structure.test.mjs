@@ -27,10 +27,11 @@ describe("persian editorial slice", () => {
     }
   });
 
-  it("ships exactly the six real projects with required fields", () => {
+  it("ships exactly the seven real projects with required fields", () => {
     const files = readdirSync(`${ROOT}src/content/projects`).filter((f) => f.endsWith(".md")).sort();
     deepStrictEqual(files, [
       "elsa-hamrah.md",
+      "gym-log.md",
       "isbatab.md",
       "mobile-khorsandi.md",
       "noveno.md",
@@ -48,6 +49,9 @@ describe("persian editorial slice", () => {
     const study = readFileSync(`${ROOT}src/content/projects/study.md`, "utf8");
     ok(study.includes("https://study.danialrashidi.ir"), "study project must link the real study subdomain");
     ok(study.includes("/images/projects/study-index.png"), "study project must use the owner-supplied screenshot");
+    const gymLog = readFileSync(`${ROOT}src/content/projects/gym-log.md`, "utf8");
+    ok(gymLog.includes("https://gym-log.danialrashidi.ir"), "gym log project must link the real landing page");
+    ok(gymLog.includes("https://github.com/imdanialrashidi/gym-log"), "gym log project must link the real source repo");
     const orders = files.map((f) => Number(frontmatter(`${ROOT}src/content/projects/${f}`).order));
     ok(orders[0] >= 0, "orders must parse");
     const novenoOrder = Number(frontmatter(`${ROOT}src/content/projects/noveno.md`).order);
@@ -110,7 +114,7 @@ describe("persian editorial slice", () => {
     ok(home.includes("SITE.studyUrl"), "hero must link the study subdomain via SITE.studyUrl");
     ok(home.includes("/پروژه‌ها/study/"), "hero must link the study detail page");
     const projectsIndex = readFileSync(`${ROOT}src/pages/پروژه‌ها/index.astro`, "utf8");
-    ok(projectsIndex.includes("۰۶ پروژه"), "projects index count must reflect six projects");
+    ok(projectsIndex.includes("۰۷ پروژه"), "projects index count must reflect seven projects");
     const footer = readFileSync(`${ROOT}src/components/Footer.astro`, "utf8");
     ok(footer.includes("SITE.studyUrl"), "footer sections must link the study center via SITE.studyUrl");
     ok(footer.includes("مرکز مطالعه"), "footer study label missing");

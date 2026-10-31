@@ -8,15 +8,21 @@ Include the affected version/commit, impact, prerequisites, a minimal reproducti
 
 ## Execution boundary
 
-omp runs with the operating-system permissions of the account that starts it. Tool approval tiers (see `tools.approvalMode` in `.omp/config.yml`) are defense in depth; they are not a sandbox. Real isolation must come from the operating system, container, or VM.
+DSH runs with the operating-system permissions of the account that starts it.
+Its sandbox mode and approval policy constrain tool actions, but they are defense
+in depth, not a substitute for OS/container/VM isolation. A denied or
+approval-required action is blocked; do not route around it.
 
-For a trusted working copy, sessions run with routine workspace execution enabled. Scoped commit/push/PR delivery is permitted only through the reviewed `scripts/omp-pr.mjs` helper on `ai-changes` under `docs/GIT_POLICY.md`. Main writes, PR merge, and other external actions still need exact owner authorization. Read-only inspection remains available.
+For a trusted working copy, routine workspace reads, edits, and checks are
+allowed. Commit, push, pull-request, release, and deployment actions happen only
+when the owner explicitly asks for them and remain subject to DSH's controls.
+Read-only inspection is always available.
 
 For an untrusted repository, unreviewed third-party instructions, or work exposed to meaningful credentials/private data:
 
 1. Prefer an OS/container/VM boundary with only the required workspace and credentials.
 2. Grant only the provider keys required for the task.
-3. Review the repository, `.omp/` configuration, skills, commands, and scripts before trusting them.
+3. Review `AGENTS.md`, `.dsh/skills/`, scripts, and CI before trusting them.
 4. Review diffs and outputs before copying or deploying them to a trusted/production environment.
 
 ## Third-party packages

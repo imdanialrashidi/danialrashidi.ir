@@ -6,8 +6,8 @@ audited and written at commit `1754f74` on 2026-10-21. Batch 3 (plans 018–023)
 implements the former quick-fix queue and direction items from the same audit.
 
 Each executor: read the plan fully before starting, honor its STOP conditions,
-work in the current worktree without committing or pushing (the owner handles
-delivery via `docs/GIT_POLICY.md`), and update your status row when done.
+work in the current worktree without committing or pushing (delivery is the
+owner's action; see `AGENTS.md`), and update your status row when done.
 
 ## Execution order & status
 

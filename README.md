@@ -32,7 +32,7 @@ bash scripts/verify.sh
 
 Node.js >=22.19.0 is required (see `package.json` `engines`).
 
-`bash scripts/verify.sh` is the canonical gate. It runs the small template
+`bash scripts/verify.sh` is the canonical gate. It runs the workflow
 self-checks, then delegates to `scripts/project-verify.sh`, which runs
 typecheck, the Node test files, and a production build in that order. `npm
 test` alone runs the structural/unit tests: site structure, the support card,
@@ -58,8 +58,8 @@ Persian filenames are intentional; URLs are percent-encoded in links.
 ## Content
 
 - Projects live in `src/content/projects/*.md`; the frontmatter schema is
-  `src/content.config.ts`. The test suite asserts exactly six projects and the
-  “۰۶ پروژه” count on the index page, so update
+  `src/content.config.ts`. The test suite asserts exactly seven projects and the
+  “۰۷ پروژه” count on the index page, so update
   `tests/site-structure.test.mjs` when adding or removing one.
 - Travels live in `src/content/travels/*.md`; each entry needs `destination`,
   `date`, and `description`. Travel photos are optional; when an entry sets
@@ -114,11 +114,23 @@ the lockfile, builds, uploads `dist/`, and deploys to GitHub Pages.
 `.github/workflows/quality.yml` runs the same gate on pull requests and pushes
 to `main`.
 
-## Design and quality contracts
+## Agent workflow
 
+This repository uses the DeepSeek Harness (DSH) workflow. `AGENTS.md` is the
+always-loaded entry point; project skills live in `.dsh/skills/` — `quick-fix`,
+`spec`, `build`, `verify`, `review`, `test-design`, plus the copy-editing
+`no-ai-slop` skill. Invoke a skill as `/name`, or let the agent load it from the
+catalog.
+
+The six workflow skills mirror
+[dsh-workflow](https://github.com/imdanialrashidi/dsh-workflow) at commit
+`93c9281`; this repository adds `no-ai-slop` for copy work.
+
+Default delivery is local: work stays in the working tree unless the owner asks
+for a commit, push, or pull request.
+
+- `AGENTS.md` — commands, routing, boundaries, and where to start reading.
+- `docs/PRODUCT.md` — problem, users, outcomes, and non-goals.
+- `docs/ARCHITECTURE.md` — system map, boundaries, invariants, and failure modes.
 - `docs/DESIGN.md` — owner direction, tokens, responsive and visual contract.
-- `docs/QUALITY.md` — acceptance and evidence rules.
-- `AGENTS.md` — how agent sessions work in this repository, and where to start
-  reading.
-- `docs/GIT_POLICY.md` — delivery policy: solo by default, leave changes in the
-  working tree unless the owner asks for a PR.
+- `docs/QUALITY.md` — verification commands, test layers, and definition of done.

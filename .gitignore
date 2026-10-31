@@ -13,10 +13,6 @@
 docs/private/**
 !docs/private/.gitkeep
 
-# omp local runtime (only when memory.backend: local is enabled)
-.omp/memory/
-.omp/cache/
-
 # Dependencies and environments
 node_modules/
 .venv/

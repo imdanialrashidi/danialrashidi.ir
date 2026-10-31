@@ -1,119 +1,95 @@
-# Quality Contract
+# Quality
 
-Evaluator-facing quality bar for meaningful changes. Keep project-specific after the first real feature; do not turn it into a generic checklist dump.
+Own commands, test strategy, and the definition of done. Keep commands current;
+a stale command is worse than a missing one.
 
-## Release rule
+## Commands
 
-A change is not complete because the code compiles or the happy-path check passes. Every accepted behavior must be implemented rather than stubbed, exercised at the appropriate layer (real run, not opinion), and supported by evidence.
+| Purpose | Command | Expected result |
+| --- | --- | --- |
+| Install dependencies | `npm ci` | Exit 0 |
+| Focused test | `node --test tests/<file>.test.mjs` | Exit 0, named tests pass |
+| Full test suite | `npm test` (`node --test tests/`) | Exit 0, all tests pass |
+| Type check | `npm run typecheck` (`astro check`) | 0 errors |
+| Lint/format | `npm run lint` | Informational no-op; no linter is configured |
+| Build | `npm run build` | Static build completes in `dist/` |
+| Full gate | `bash scripts/verify.sh` | Workflow checks + typecheck + tests + build pass |
+| Regenerate project variants | `npm run assets:projects` | 480w/960w WebP variants written |
+| Regenerate project OG cards | `npm run assets:og` | 1200×630 JPEG cards written |
+| Browser QA | `npm run build`, serve `dist/`, then `QA_BASE=http://127.0.0.1:4321 node scripts/qa-screenshots.mjs` | Report and screenshots in `.artifacts/qa/` |
 
-A required criterion that is unproven is **not passed**.
+If a command is unavailable in an environment, report the check as blocked with
+the missing prerequisite. Do not replace it with an invented command.
 
-## Functional completeness
+## Test layers
 
-For accepted scope:
+| Layer | Scope | Where | When to run |
+| --- | --- | --- | --- |
+| Unit | Nav active-state and support-card helpers | `tests/nav.test.mjs`, `tests/support-card.test.mjs` | Changed helper logic |
+| Structural/integration | Routes, content contract, config single-source, assets, SEO, theme/no-JS | `tests/site-structure.test.mjs` | Changed routes, content, config, or layout |
+| Build | Astro content schema, pages, assets, sitemap | `npm run build` | Every broad change |
+| Manual/runtime | Real pages, console, failed requests, overflow, metadata | `scripts/qa-screenshots.mjs` | User-facing or visual change |
+| Visual | Desktop/mobile states against `docs/DESIGN.md` | browser QA screenshots | Material visual change |
 
-- controls that imply behavior must actually perform that behavior;
-- persistence must survive the lifecycle promised by the product;
-- displayed state must come from the authoritative source rather than a convenient fake;
-- required error, empty, loading, disabled, success, permission, retry, and recovery states must behave coherently;
-- no accepted feature may be satisfied by a placeholder, TODO handler, mock response, display-only control, or hard-coded success path unless the contract explicitly says it is a prototype.
+## Risk areas
 
-## Correctness
+- **Content contract:** tests pin exactly seven projects, featured order, image
+  paths, alt text, dimensions, and variants. Update content and tests together.
+- **Persian RTL and routes:** Persian filenames and percent-encoded URLs;
+  `trailingSlash: "always"`; no horizontal overflow at 320px.
+- **Configuration drift:** identity, links, study URL, and domain must come from
+  `src/config/site.ts`; support data from `src/config/support.ts`.
+- **Image weight and metadata:** variants, OG cards, intrinsic dimensions, and
+  lazy loading protect LCP/CLS. Regenerate after replacing a screenshot.
+- **Theme and navigation:** saved theme must survive view transitions; reveal
+  content must stay visible without JavaScript.
+- **Static hosting and CI:** the build must stay static; GitHub Pages and Actions
+  are the only delivery path.
+- **Public support data:** the card number is intentionally public. Never copy
+  it into docs, examples, logs, or new tests beyond the existing owner-data
+  guard.
 
-- Preserve domain invariants across success and failure paths.
-- Validate external/untrusted data at boundaries.
-- Handle retries, duplicate requests, time, rounding, ordering, partial failure, and concurrency where they are material to the changed behavior.
-- A production bug should gain regression evidence when practical.
-- Checks should assert behavior and contracts rather than implementation trivia.
-- A new regression test should demonstrably fail on pre-fix behavior (or a safe focused mutation) when practical, then pass after the fix.
-- Generated checks must build, pass reliably, add a distinct behavioral signal, and isolate relevant state; line coverage alone is not acceptance evidence.
+## Test conventions
 
-`/skill:test-design` owns the Test Value Gate — apply it before adding or materially changing tests. `No new test` is acceptable for behavior-neutral changes or behavior the suite already proves.
+- Use `node:test` and `node:assert`; no test framework is installed.
+- Tests read source files and assert observable structure/contracts; keep them
+  behavior-oriented and independent of the implementation where practical.
+- Prefer the smallest assertion that detects the concrete regression; avoid
+  over-constraining future content or image formats.
+- Do not mock the subject under test. There are no external services to mock.
+- Add a regression test only when it would fail on the pre-fix behavior.
+- Content edits must keep the matching test expectations true; do not weaken a
+  guard to make new content pass.
 
-## Security and data integrity
+## CI
 
-For trust-boundary changes, apply the focused risk review below.
+- `.github/workflows/quality.yml` runs `npm ci` and `bash scripts/verify.sh` on
+  pull requests and pushes to `main`.
+- `.github/workflows/deploy.yml` builds and deploys `dist/` to GitHub Pages on
+  pushes to `main`.
+- CI does not run the optional browser QA; run it locally for user-facing work
+  when Chromium is available, or report it as unexecuted.
 
-At minimum:
+## Manual checks
 
-- authorization and ownership are enforced server-side;
-- client-provided roles, prices, payment/subscription states, ownership, and permissions are never authoritative;
-- secrets and sensitive data do not enter source, logs, screenshots, fixtures, prompts, or public artifacts;
-- money/callback/state-transition operations are verified, idempotent, replay-aware, and auditable where applicable;
-- schema/data changes have compatibility, rollback/recovery, and failure-path reasoning.
+- Browser QA against a built copy: home, about, projects, project detail,
+  travels, support, and contact at 1360 and 390 widths, plus 320px overflow.
+- Keyboard pass for menu, theme toggle, and focus visibility.
+- Reduced-motion behavior for signature draw and transitions.
+- Inspect desktop/mobile screenshots for a material visual change.
 
-### Focused risk review
+## Definition of done
 
-Review only the accepted scope and actual diff. Trace changed trust boundaries, input-to-sink data flows, state transitions, public contracts, dependencies, and operational behavior; check the actual controls and checks before reporting a finding.
+- Acceptance criteria are met or explicitly reported as unmet.
+- Focused checks pass; the full gate has a recorded status.
+- Failures, blockers, unproven claims, and unexecuted checks are reported.
+- Review findings are resolved or explicitly accepted with an owner and reason.
+- Documentation owned by the change is updated.
+- The diff contains no unrelated changes, secrets, generated noise, or weakened
+  tests.
 
-Check only relevant failure paths: authorization/tenant isolation, injection and unsafe files/URLs, credential/session handling, payment/replay/idempotency, races and partial writes, timeout/cancellation/recovery, unbounded work, inaccessible/error states, dependency/CI mismatch, migration rollback. For High-risk scopes prefer a `/review` reviewer pass (plus `/advisor on` — second model, extra cost); otherwise a direct evidence-focused pass.
+## Related documents
 
-For each evidence-backed finding give severity, `file:line` or symbol, a concrete failure/attack scenario, why the current control is insufficient, the smallest safe fix, and a proof check. Prefer a few actionable findings over speculative checklist output.
-
-- **BLOCKER:** exploitable security, data loss/corruption, money/access violation, migration/deployment breakage, or a broken critical flow.
-- **MAJOR:** likely user-visible correctness/reliability failure or substantial security/performance regression.
-- **MINOR:** bounded defect or maintenance risk.
-- **NIT:** optional clarity/style improvement; never a release blocker.
-
-Return the acceptance evidence and one verdict: `PASS`, `PASS WITH FIXES`, or `BLOCK`. `PASS` requires proven required criteria and no unresolved BLOCKER/MAJOR. Use `/review` for the complete review procedure.
-
-## User-facing quality
-
-For rendered interfaces:
-
-- exercise the critical journey in the real application with the `browser` tool when browser behavior matters;
-- preserve keyboard access, visible focus, semantic controls, labels, contrast, touch targets, and reduced-motion behavior;
-- check realistic data, long text, localization/RTL when relevant, and at least one narrow viewport for mobile-facing surfaces;
-- follow the accepted `docs/DESIGN.md`; reuse existing design tokens/components when sound, change deliberately when the direction requires it;
-- do not add explanatory copy that merely restates obvious UI;
-- visual polish cannot compensate for missing interaction depth or broken behavior.
-
-Default accessibility baseline when the product has not chosen a stricter target: WCAG 2.2 AA, text contrast ≥ 4.5:1 (3:1 large text), non-text UI/state contrast ≥ 3:1, reflow at 320 CSS px, usable at 200% text zoom with visible focus and meaning not carried by color alone.
-
-## Reliability and performance
-
-Apply only where relevant to the changed path:
-
-- avoid unbounded reads/work, N+1 access, duplicate calls, uncontrolled concurrency, blocking hot paths;
-- use explicit timeouts/cancellation/retries where the boundary requires them;
-- preserve meaningful non-sensitive logs or diagnostics for critical transitions;
-- performance claims require a reproducible baseline and after-measurement;
-- a flaky check or intermittent runtime path is a reliability defect, not permission to weaken the gate.
-
-For production web surfaces without accepted product-specific field budgets, target Core Web Vitals `good` at p75 segmented by mobile/desktop: LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1. Before field data exists, require an accepted repeatable lab budget plus rollout checks; lab results are pre-production signals, not field proof.
-
-## Maintainability and architecture
-
-- Prefer existing project patterns and stable framework/platform primitives.
-- Keep public interfaces small and backward-compatible unless a breaking change is accepted.
-- Keep business rules separable from presentation/transport when the existing architecture supports it.
-- New abstractions should solve more than one real current use case or remove a demonstrated risk/duplication.
-- New dependencies require a concrete benefit over existing/platform capabilities — omp already ships LSP, eval runtimes, browser, search, and subagents; adding a package that duplicates them needs justification.
-- Architecture invariants that matter repeatedly should be enforced mechanically with types, lint rules, structural tests, schemas, or CI rather than prose alone.
-
-## Evidence hierarchy
-
-Prefer stronger evidence when practical:
-
-1. deterministic automated check of the accepted behavior;
-2. real `eval`/`bash` run or `browser`-tool exercise of the relevant journey;
-3. `lsp` diagnostics/references, type/lint/structural analysis for invariant classes;
-4. reproducible measurement for performance/reliability claims;
-5. focused independent-evaluator inspection (`/review`) for aspects that cannot be automated economically.
-
-A reviewer or subagent opinion alone is not proof.
-
-## Evaluator rubric
-
-Judge the accepted contract, not adjacent scope. For each criterion return one of:
-
-- **PASS** — implementation and evidence satisfy the criterion;
-- **FAIL** — evidence demonstrates incorrect/incomplete behavior;
-- **UNPROVEN** — implementation may exist but adequate evidence is missing;
-- **BLOCKED** — a genuine prerequisite prevents verification.
-
-The overall task cannot be called complete while a required criterion is `FAIL` or `UNPROVEN`, or while a required independent review has an unresolved BLOCKER/MAJOR finding.
-
-## Project-specific quality invariants
-
-Replace this paragraph with confirmed project-specific rules and canonical commands once the repository provides enough evidence (architectural dependency direction, accessibility target, API compatibility guarantee, performance budget, browser/device matrix, canonical release gate). Do not invent quality targets the product or repository has not accepted.
+- Product: [PRODUCT.md](PRODUCT.md)
+- Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Design: [DESIGN.md](DESIGN.md)

@@ -9,7 +9,8 @@ More machinery is not automatically an improvement.
 1. Use Node.js 22.19.0 or newer.
 2. Install dependencies with `npm ci`.
 3. Run `npm run dev` and open http://localhost:4321.
-4. Before handing off: `bash scripts/verify.sh` (typecheck, Node tests, build).
+4. Before handing off: `bash scripts/verify.sh` (workflow self-checks,
+   typecheck, Node tests, build).
 5. For UI changes, run the optional browser QA from `README.md` against a built
    preview and inspect the saved screenshots.
 6. Work directly in the repository. For an untrusted repository or meaningful
@@ -30,9 +31,9 @@ Preserve unrelated work and keep one primary writer. Do not add dependencies wit
 
 ## Site changes
 
-Run `bash scripts/verify.sh` before handing off a change. It runs typecheck,
-the Node tests, and a production build; do not bypass or weaken it to get a
-green result.
+Run `bash scripts/verify.sh` before handing off a change. It runs the workflow
+self-checks, typecheck, the Node tests, and a production build; do not bypass or
+weaken it to get a green result.
 
 Update the affected source-of-truth file rather than the rendered output:
 
