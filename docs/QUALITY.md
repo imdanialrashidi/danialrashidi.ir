@@ -41,8 +41,8 @@ the missing prerequisite. Do not replace it with an invented command.
   `src/config/site.ts`; support data from `src/config/support.ts`.
 - **Image weight and metadata:** variants, OG cards, intrinsic dimensions, and
   lazy loading protect LCP/CLS. Regenerate after replacing a screenshot.
-- **Theme and navigation:** saved theme must survive view transitions; reveal
-  content must stay visible without JavaScript.
+- **Theme and navigation:** saved theme must survive view transitions; every
+  section must paint without JavaScript (no script-gated opacity).
 - **Static hosting and CI:** the build must stay static; GitHub Pages and Actions
   are the only delivery path.
 - **Public support data:** the card number is intentionally public. Never copy

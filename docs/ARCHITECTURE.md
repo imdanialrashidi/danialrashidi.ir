@@ -68,8 +68,8 @@ the site, no user input, and no server-side authorization surface.
 - `trailingSlash: "always"`, `lang="fa"`, `dir="rtl"`, and static output are
   non-negotiable without an owner decision.
 - Every `target="_blank"` link carries `rel="noopener"`; social links are links,
-  not ARIA list items; theme choice survives client-side navigation; reveal
-  content is visible without JavaScript.
+  not ARIA list items; theme choice survives client-side navigation; no page
+  content waits on script to become visible.
 
 ## Failure modes
 

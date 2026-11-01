@@ -15,24 +15,24 @@ const rest = projects.filter((p) => !p.data.featured);
       <p class="font-mono text-sm" style="color: var(--accent);">۰۷ پروژه · ۲ ویژه، ۵ منتخب</p>
       <h1 id="projects-title" class="mt-4 text-4xl font-extrabold sm:text-5xl">پروژه‌ها</h1>
       <p class="mt-4 max-w-2xl" style="color: var(--muted);">
-        کاری که عمیق جلو می‌برم اول است — نوونو و مرکز مطالعه؛ بقیه پروفایل‌های کوتاه و صادقانه‌اند.
-        هر هفت‌تا اسکرین‌شات واقعی دارند — بدون ماکاپ تزیینی.
+        کاری که عمیق جلو می‌برم اول است: نوونو و مرکز مطالعه. بقیه پروفایل‌های کوتاه‌اند
+        و هر هفت‌تا اسکرین‌شات واقعی خودشان را دارند.
       </p>
     </section>
 
     <section aria-label="کارهای جدی">
       <div class="section-rule pt-6">
-        <p class="font-mono text-sm" style="color: var(--accent);">ویژه — کار عمیق</p>
+        <p class="font-mono text-sm" style="color: var(--accent);">ویژه · کار عمیق</p>
         <p class="mt-2 text-sm" style="color: var(--muted);">نوونو اول است؛ مرکز مطالعه‌ی درسی بعدش.</p>
       </div>
-      <div class="divide-y" style="border-color: var(--border);">
+      <div class="hairline-list">
         {featured.map((project, i) => <ProjectSpread project={project} flip={i % 2 === 1} />)}
       </div>
     </section>
 
     <section class="pb-10" aria-label="کارهای منتخب">
       <div class="section-rule pt-6">
-        <p class="font-mono text-sm" style="color: var(--accent);">منتخب — پروفایل کوتاه</p>
+        <p class="font-mono text-sm" style="color: var(--accent);">منتخب · پروفایل کوتاه</p>
       </div>
       <div>
         {rest.map((project) => <ProjectRow project={project} />)}

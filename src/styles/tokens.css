@@ -1,4 +1,4 @@
-/* Semantic tokens — code owns resolved values; docs/DESIGN.md owns intent.
+/* Semantic tokens: code owns resolved values; docs/DESIGN.md owns intent.
    Light: warm paper editorial. Dark: deep ink-green, intentionally designed. */
 
 :root {
@@ -8,7 +8,8 @@
 
   --font-display: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
   --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* No mono webfont ships; the system stack is the honest declaration. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --canvas: #faf7f1;
   --surface: #ffffff;

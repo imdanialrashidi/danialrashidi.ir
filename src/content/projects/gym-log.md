@@ -1,16 +1,16 @@
 ---
 title: "Gym Log"
 faTitle: "جیم لاگ"
-description: "دفتر تمرین بدنسازی برای اندروید؛ ثبت وزن، تکرار و RIR، پیشنهاد بار بعدی، رکورد و نمودار پیشرفت — آفلاین و بدون حساب کاربری."
+description: "دفتر تمرین بدنسازی برای اندروید؛ ثبت وزن، تکرار و RIR، پیشنهاد بار بعدی، رکورد و نمودار پیشرفت، آفلاین و بدون حساب کاربری."
 year: "۲۰۲۶"
-status: "منتشرشده — نسخهٔ ۰.۲.۱"
+status: "منتشرشده · نسخهٔ ۰.۲.۱"
 technologies: ["اندروید", "اپلیکیشن", "آفلاین"]
 liveUrl: "https://gym-log.danialrashidi.ir"
 githubUrl: "https://github.com/imdanialrashidi/gym-log"
 featured: false
 order: 7
 image: "/images/projects/gym-log-hero.webp"
-imageAlt: "اسکرین‌شات صفحهٔ اصلی جیم لاگ — تیتر «باشگاه، بدون دفترچه» و پیش‌نمایش صفحهٔ تمرین با ثبت وزن، تکرار و RIR"
+imageAlt: "اسکرین‌شات صفحهٔ اصلی جیم لاگ، تیتر «باشگاه، بدون دفترچه» و پیش‌نمایش صفحهٔ تمرین با ثبت وزن، تکرار و RIR"
 imageWidth: 1920
 imageHeight: 1080
 monogram: "G"

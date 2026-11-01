@@ -1,5 +1,5 @@
 ---
-/* BrandMark — typographic wordmark. The name itself is the logo, underlined
+/* BrandMark: typographic wordmark. The name itself is the logo, underlined
    by a miniature of the signature stroke (the site's single device).
    No boxed mark: at header size the seal read as a generic app icon. */
 
@@ -32,7 +32,7 @@ const strokeW = size === "header" ? "width: 92px;" : "width: 140px;";
     fill: none;
     stroke-linecap: round;
   }
-  /* Hover: the little stroke redraws itself — one quiet delight. */
+  /* Hover: the little stroke redraws itself: one quiet delight. */
   a:hover .brand-stroke-mini path {
     stroke-dasharray: 130;
     animation: mini-draw 550ms var(--ease-out);

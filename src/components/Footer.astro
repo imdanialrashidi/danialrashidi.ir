@@ -12,8 +12,7 @@ import SocialIcon from "./SocialIcon.astro";
           <BrandMark size="footer" />
         </a>
         <p class="mt-2 max-w-md text-[0.95rem]" style="color: var(--muted);">
-          این سایت خانه‌ی شخصی من است؛ جایی که پروژه‌ها، سفرها و یادداشت‌ها را نگه می‌دارم.
-          {PROFILE.nowDoing}.
+          این سایت خانه‌ی شخصی من است؛ جایی که پروژه‌ها، سفرها و یادداشت‌ها را نگه می‌دارم. {PROFILE.nowDoing}.
         </p>
         <div class="mt-5">
           <ul class="m-0 flex flex-wrap gap-2 list-none p-0" aria-label="شبکه‌های اجتماعی">
@@ -24,10 +23,10 @@ import SocialIcon from "./SocialIcon.astro";
                     href={s.href}
                     target={s.href.startsWith("mailto:") ? undefined : "_blank"}
                     rel="me noopener"
-                    aria-label={`${s.label} — ${s.handle}`}
+                    aria-label={`${s.label} · ${s.handle}`}
                     class="social-icon inline-grid min-h-11 min-w-11 place-items-center rounded-lg border"
                     style="border-color: var(--border);"
-                    title={`${s.label} — ${s.handle}`}
+                    title={`${s.label} · ${s.handle}`}
                   >
                     <SocialIcon id={s.id} class="size-5" />
                   </a>
@@ -49,7 +48,7 @@ import SocialIcon from "./SocialIcon.astro";
           <li><a class="quiet-link" href="/پروژه‌ها/">پروژه‌ها</a></li>
           <li>
             <a class="quiet-link" href={SITE.studyUrl} target="_blank" rel="noopener">
-              مرکز مطالعه — وب‌سایت‌های آموزشی ↗
+              مرکز مطالعه (وب‌سایت‌های آموزشی)
             </a>
           </li>
           <li><a class="quiet-link" href="/سفرها/">سفرها</a></li>
@@ -67,17 +66,17 @@ import SocialIcon from "./SocialIcon.astro";
             <a class="quiet-link ltr font-mono text-sm" href={SITE.github} target="_blank" rel="me noopener">github.com/{SITE.githubHandle}</a>
           </li>
           <li>
-            <a class="quiet-link" href={SITE.telegram} target="_blank" rel="me noopener">تلگرام — {SITE.telegramHandle}</a>
+            <a class="quiet-link" href={SITE.telegram} target="_blank" rel="me noopener">تلگرام · {SITE.telegramHandle}</a>
           </li>
           <li>
-            <a class="quiet-link" href={SITE.instagram} target="_blank" rel="me noopener">اینستاگرام — {SITE.instagramHandle}</a>
+            <a class="quiet-link" href={SITE.instagram} target="_blank" rel="me noopener">اینستاگرام · {SITE.instagramHandle}</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="mt-12 flex flex-col gap-2 border-t pt-6 text-sm sm:flex-row sm:items-center sm:justify-between" style="border-color: var(--border); color: var(--muted);">
-      <p>© ۱۴۰۵ دانیال رشیدی — نوشته و ساخته‌شده با دقت.</p>
-      <p class="font-mono text-xs ltr">danialrashidi.ir · v1</p>
+      <p>© ۱۴۰۵ دانیال رشیدی</p>
+      <p class="font-mono text-xs ltr">danialrashidi.ir</p>
     </div>
   </div>
 </footer>
@@ -86,12 +85,10 @@ import SocialIcon from "./SocialIcon.astro";
   .social-icon {
     color: var(--ink);
     transition:
-      transform var(--dur-fast) var(--ease-out),
       border-color var(--dur-fast) var(--ease-out),
       color var(--dur-fast) var(--ease-out);
   }
   .social-icon:hover {
-    transform: translateY(-2px);
     border-color: var(--accent);
     color: var(--accent);
   }

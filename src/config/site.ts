@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────────────────────
-   تنها فایل تنظیمات هویتی سایت — همه‌ی لینک‌ها از این‌جا می‌آیند.
+   تنها فایل تنظیمات هویتی سایت: همه‌ی لینک‌ها از این‌جا می‌آیند.
    مالک: فقط همین فایل را عوض کن؛ همه‌جا (هیرو، فوتر، ارتباط،
    اینستاگرام، ماست‌هد) خودکار به‌روز می‌شود. چیزی را در کامپوننت‌ها
-   دستی عوض نکن. عدد کارت بانکی این‌جا نیست — در src/config/support.ts.
+   دستی عوض نکن. عدد کارت بانکی این‌جا نیست: در src/config/support.ts.
    ───────────────────────────────────────────────────────────── */
 
 export const SITE = {
@@ -13,9 +13,9 @@ export const SITE = {
   dir: "rtl" as const,
   tagline: "نرم‌افزار، محصول و سفر",
   ogImage: "/images/og-cover.jpg",
-  ogImageAlt: "کارت معرفی دانیال رشیدی — نرم‌افزار، محصول و سفر · danialrashidi.ir",
+  ogImageAlt: "کارت معرفی دانیال رشیدی · نرم‌افزار، محصول و سفر · danialrashidi.ir",
   description:
-    "دانیال رشیدی هستم؛ نرم‌افزار و محصول می‌سازم — از ایده‌ی مبهم تا سیستمِ در حال کار. پروژه‌ها، سفرها و راه‌های ارتباط این‌جاست.",
+    "دانیال رشیدی هستم؛ نرم‌افزار و محصول می‌سازم: از ایده‌ی مبهم تا سیستمِ در حال کار. پروژه‌ها، سفرها و راه‌های ارتباط این‌جاست.",
   email: "imdanialrashidi@gmail.com",
   github: "https://github.com/imdanialrashidi",
   githubHandle: "imdanialrashidi",
@@ -30,7 +30,7 @@ export const SITE = {
   studyUrl: "https://study.danialrashidi.ir",
 } as const;
 
-/* پروفایل شخصی — عکس هیرو و درباره از این‌جا می‌آید.
+/* پروفایل شخصی: عکس هیرو و درباره از این‌جا می‌آید.
    مالک: فایل عکس را در public/images/ بگذار و فقط همین خط را عوض کن. */
 export const PROFILE = {
   photoSrc: "/images/Danial_photo.jpg",
@@ -52,7 +52,7 @@ export type SocialLink = {
   ltr?: boolean;
 };
 
-/* ترتیب نمایش آیکن‌ها در هیرو/فوتر/ارتباط — از همین‌جا می‌آید. */
+/* ترتیب نمایش آیکن‌ها در هیرو/فوتر/ارتباط: از همین‌جا می‌آید. */
 export const SOCIALS: SocialLink[] = [
   { id: "telegram", label: "تلگرام", href: SITE.telegram, handle: SITE.telegramHandle, ltr: true },
   { id: "github", label: "گیت‌هاب", href: SITE.github, handle: `github.com/${SITE.githubHandle}`, ltr: true },

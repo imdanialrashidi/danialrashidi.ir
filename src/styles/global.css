@@ -22,7 +22,7 @@ body {
   color: var(--on-action);
 }
 
-/* Signature underline draw — the one orchestrated moment */
+/* Signature underline draw: the one orchestrated moment */
 .signature-stroke {
   display: block;
   width: min(320px, 60%);
@@ -76,8 +76,22 @@ body {
   border-radius: 4px;
 }
 
+/* Enabled controls read as clickable; the disabled ones say so. */
+:where(a[href], button:not(:disabled), summary, [role="button"]:not([aria-disabled="true"])) {
+  cursor: pointer;
+}
+:where(button:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+
 /* Hairline editorial rule with margin index */
 .section-rule {
+  border-block-start: 1px solid var(--border);
+}
+
+/* Stacked editorial rows: one hairline between items, drawn in the border token.
+   Tailwind's divide-y paints with currentColor, which reads as ink, not paper. */
+.hairline-list > * + * {
   border-block-start: 1px solid var(--border);
 }
 
@@ -94,65 +108,15 @@ body {
   box-shadow: 12px 12px 0 0 var(--frame-shadow);
 }
 
-/* Entrance + scroll reveal — staggered, once, GPU-cheap */
-.hero-enter {
-  opacity: 0;
-  transform: translateY(14px);
-  animation: rise-in 700ms var(--ease-out) forwards;
-  animation-delay: var(--reveal-delay, 0ms);
-}
-
-/* Visible by default. Only JS-enabled documents opt into the entrance
-   animation; if scripts are blocked or fail, the content still renders. */
-.reveal {
-  opacity: 1;
-  transform: none;
-}
-
-html.js .reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 600ms var(--ease-out),
-    transform 600ms var(--ease-out);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-
-html.js .reveal.is-visible,
-.hero-enter.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-@keyframes rise-in {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Buttons lift a touch — feedback without noise */
+/* Buttons answer the pointer with tone, not motion. */
 .btn-primary {
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    filter var(--dur-fast) var(--ease-out);
+  transition: filter var(--dur-fast) var(--ease-out);
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
   filter: brightness(1.06);
 }
 .btn-primary:active {
-  transform: translateY(0);
-}
-
-/* Photo frames breathe on hover */
-.photo-frame {
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-fast) var(--ease-out);
-}
-a.photo-frame:hover {
-  transform: translateY(-3px);
+  filter: brightness(0.94);
 }
 
 .row-thumb {
@@ -184,7 +148,7 @@ a.photo-frame:hover {
   }
 }
 
-/* Typographic placeholder panels — honest, no fabricated UI */
+/* Typographic placeholder panels: honest, no fabricated UI */
 .panel-mono {
   font-family: var(--font-display);
   font-weight: 800;
@@ -204,14 +168,6 @@ a.photo-frame:hover {
   .signature-stroke path {
     animation: none;
     stroke-dashoffset: 0;
-  }
-
-  .hero-enter,
-  html.js .reveal {
-    opacity: 1;
-    transform: none;
-    animation: none;
-    transition: none;
   }
 
   ::view-transition-group(*),

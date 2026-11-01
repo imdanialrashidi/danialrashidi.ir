@@ -20,23 +20,23 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
 <Base
   path="/"
   title="خانه"
-  description="دانیال رشیدی — سازنده‌ی نرم‌افزار و محصول؛ وب‌اپ، فروشگاه اینترنتی و ابزار کاربردی، از ایده‌ی مبهم تا سیستمِ در حال کار."
+  description="دانیال رشیدی؛ سازنده‌ی نرم‌افزار و محصول. وب‌اپ، فروشگاه اینترنتی و ابزار کاربردی، از ایده‌ی مبهم تا سیستمِ در حال کار."
 >
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
     {/* HERO */}
     <section class="grid gap-10 pb-16 pt-12 md:grid-cols-[7fr_5fr] md:items-center md:pt-20" aria-labelledby="hero-title">
       <div>
-        <p class="hero-enter font-mono text-sm" style="color: var(--accent); --reveal-delay: 0ms;">۰ · خانه‌ی شخصی · {PROFILE.location}</p>
-        <h1 id="hero-title" class="sr-only">دانیال رشیدی — خانه‌ی شخصی</h1>
-        <div class="hero-enter mt-4" style="--reveal-delay: 80ms;">
+        <p class="font-mono text-sm" style="color: var(--accent);">خانه‌ی شخصی · {PROFILE.location}</p>
+        <h1 id="hero-title" class="sr-only">دانیال رشیدی، خانه‌ی شخصی</h1>
+        <div class="mt-4">
           <Signature size="hero" />
         </div>
-        <p class="hero-enter mt-6 max-w-xl text-lg leading-9" style="--reveal-delay: 160ms;">
-          سلام، من <strong>دانیال رشیدی</strong> هستم. نرم‌افزار و محصول می‌سازم —
+        <p class="mt-6 max-w-xl text-lg leading-9">
+          سلام، من <strong>دانیال رشیدی</strong> هستم. نرم‌افزار و محصول می‌سازم؛
           از ایده‌ی مبهم تا سیستمی که واقعاً کار کند. این‌جا خانه‌ی شخصی من است:
           پروژه‌هایی که جدی گرفته‌ام، سفرهایی که دوستشان دارم، و راهی برای حرف زدن.
         </p>
-        <p class="hero-enter mt-4 flex flex-wrap gap-5" style="--reveal-delay: 240ms;">
+        <p class="mt-4 flex flex-wrap gap-5">
           <a
             href="/پروژه‌ها/"
             class="btn-primary inline-flex min-h-12 items-center rounded-lg px-7 font-bold"
@@ -45,15 +45,15 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
             دیدن پروژه‌ها
           </a>
           <a href="/درباره/" class="quiet-link inline-flex min-h-12 items-center font-bold">
-            بیشتر درباره‌ی من ←
+            بیشتر درباره‌ی من
           </a>
         </p>
-        <p class="hero-enter mt-6 max-w-xl border-s-2 ps-4 text-[0.95rem]" style="border-color: var(--accent); color: var(--muted); --reveal-delay: 320ms;">
-          <strong style="color: var(--ink);">الان:</strong> {PROFILE.nowDoing} —
+        <p class="mt-6 max-w-xl border-t pt-4 text-[0.95rem]" style="border-color: var(--border); color: var(--muted);">
+          <strong style="color: var(--ink);">الان:</strong> {PROFILE.nowDoing}.
           ساکن {PROFILE.location}. بیرون از ویرایشگر: {PROFILE.interests.join("، ")}.
           مسیرش: <a class="quiet-link" href="/پروژه‌ها/noveno/">نوونو</a>.
         </p>
-        <div class="hero-enter mt-6" style="--reveal-delay: 400ms;">
+        <div class="mt-6">
           <SocialIcons />
           <p class="mt-3 font-mono text-xs ltr" style="color: var(--muted);">
             {SITE.telegramHandle} · github.com/{SITE.githubHandle}
@@ -63,27 +63,27 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
 
       <div class="grid gap-5">
         <ProfilePhoto src="/images/Danial_hero.jpg" srcset="/images/Danial_hero-384.webp 384w, /images/Danial_hero-480.webp 480w" sizes="(max-width: 640px) 384px, 480px" alt="دانیال رشیدی کنار مجسمه‌ی زرد عینکی، شب" width={480} height={600} />
-        <div class="hero-enter rounded-xl border p-5" style="border-color: var(--border); background: var(--surface); --reveal-delay: 260ms;">
+        <div class="rounded-lg border p-5" style="border-color: var(--border); background: var(--surface);">
           <p class="text-sm font-bold">چه کمکی از دستم برمی‌آید</p>
           <ul class="mt-3 space-y-2 text-[0.95rem]" style="color: var(--muted);">
-            <li class="flex gap-2"><span aria-hidden="true" style="color: var(--accent);">—</span> وب‌اپ و ابزار محصولی که استفاده شود</li>
-            <li class="flex gap-2"><span aria-hidden="true" style="color: var(--accent);">—</span> سایت فروشگاهی و شرکتی تمیز و سریع</li>
-            <li class="flex gap-2"><span aria-hidden="true" style="color: var(--accent);">—</span> اتوماسیون کارهای تکراری و اتصال سیستم‌ها</li>
+            <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.9em] h-px w-3 shrink-0" style="background: var(--accent);"></span> وب‌اپ و ابزار محصولی که استفاده شود</li>
+            <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.9em] h-px w-3 shrink-0" style="background: var(--accent);"></span> سایت فروشگاهی و شرکتی تمیز و سریع</li>
+            <li class="flex gap-3"><span aria-hidden="true" class="mt-[0.9em] h-px w-3 shrink-0" style="background: var(--accent);"></span> اتوماسیون کارهای تکراری و اتصال سیستم‌ها</li>
           </ul>
           <p class="mt-4">
             <a href="/ارتباط/" class="quiet-link inline-flex min-h-11 items-center text-sm font-bold">
-              برای پروژه پیام بده ←
+              برای پروژه پیام بده
             </a>
           </p>
         </div>
       </div>
-      <div class="hero-enter mt-10 rounded-xl border p-5 sm:p-6 md:col-span-2" style="border-color: var(--border); background: var(--surface); --reveal-delay: 480ms;" aria-label="مرکز مطالعه">
+      <div class="mt-10 rounded-lg border p-5 sm:p-6 md:col-span-2" style="border-color: var(--border); background: var(--surface);" aria-label="مرکز مطالعه">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p class="font-mono text-xs" style="color: var(--accent);">تازه · مرکز مطالعه‌ی دانیال رشیدی</p>
             <p class="mt-2 text-lg font-extrabold">وب‌سایت‌هایی که درس‌های سخت را ساده می‌کنند</p>
             <p class="mt-1 max-w-2xl text-[0.95rem]" style="color: var(--muted);">
-              فهرست وب‌سایت‌های آموزشی درسی — هر دوره یک وب‌سایت تعاملی مستقل با توضیح قدم‌به‌قدم و تمرین در مرورگر.
+              فهرست وب‌سایت‌های آموزشی درسی؛ هر دوره یک وب‌سایت تعاملی مستقل با توضیح قدم‌به‌قدم و تمرین در مرورگر.
             </p>
           </div>
           <p class="flex flex-wrap items-center gap-4 sm:shrink-0">
@@ -94,10 +94,10 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
               class="btn-primary inline-flex min-h-12 items-center rounded-lg px-6 font-bold"
               style="background: var(--action); color: var(--on-action);"
             >
-              ورود به مرکز مطالعه ↗
+              ورود به مرکز مطالعه
             </a>
             <a href="/پروژه‌ها/study/" class="quiet-link inline-flex min-h-12 items-center font-bold">
-              درباره‌اش بخوانید ←
+              درباره‌ی مرکز مطالعه
             </a>
           </p>
         </div>
@@ -110,11 +110,11 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
       <SectionHeading
         index="۰۱"
         title="پروژه‌های منتخب"
-        note="کاری که این روزها جدی گرفته‌ام جلوتر؛ بقیه، کوتاه و صادقانه — هرکدام با اسکرین‌شات واقعی خودش."
+        note="کاری که این روزها جدی گرفته‌ام جلوتر؛ بقیه کوتاه، با اسکرین‌شات واقعی خودشان."
         href="/پروژه‌ها/"
         linkLabel="همه‌ی پروژه‌ها"
       />
-      <div class="divide-y" style="border-color: var(--border);">
+      <div class="hairline-list">
         {featured.map((project, i) => <ProjectSpread project={project} flip={i % 2 === 1} />)}
       </div>
       <div class="mt-2">
@@ -125,8 +125,8 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
     {/* ABOUT SNAPSHOT */}
     <section class="py-14" aria-labelledby="about-snapshot">
       <span id="about-snapshot" class="sr-only">نگاهی به من</span>
-      <SectionHeading index="۰۲" title="درباره، کوتاه" href="/درباره/" linkLabel="کاملش را بخوانید" />
-      <div class="reveal grid gap-8 py-8 md:grid-cols-[5fr_7fr]">
+      <SectionHeading index="۰۲" title="درباره، کوتاه" href="/درباره/" linkLabel="درباره‌ی من" />
+      <div class="grid gap-8 py-8 md:grid-cols-[5fr_7fr]">
         <p class="panel-mono text-2xl leading-relaxed">
           «ایده وقتی ارزش دارد که به چیزی قابل استفاده تبدیل شود.»
         </p>
@@ -146,9 +146,9 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
             }
           </ul>
           <p class="mt-4 text-sm" style="color: var(--muted);">
-            {PROFILE.availability} · {PROFILE.availabilityNote} — <a class="quiet-link" href="/درباره/">مسیرم را بخوانید</a>
+            {PROFILE.availability} · {PROFILE.availabilityNote}.
+            <a class="quiet-link" href="/درباره/">مسیرم را بخوانید</a>
           </p>
-          <p class="mt-3" style="color: var(--muted);">— دانیال</p>
         </div>
       </div>
     </section>
@@ -159,18 +159,18 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
       <SectionHeading
         index="۰۳"
         title="سفرها و قاب‌ها"
-        note="یادداشت‌های کوتاه سفر با قاب خودش؛ عکس‌های کامل در اینستاگرام زندگی می‌کنند."
+        note="یادداشت‌های کوتاه سفر، هرکدام با قاب خودش."
         href="/سفرها/"
         linkLabel="همه‌ی سفرها"
       />
-      <div class="travel-strip reveal mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="travel-strip mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {travels.map((entry) => <TravelCard entry={entry} />)}
       </div>
     </section>
 
     {/* INSTAGRAM */}
     <section aria-label="اینستاگرام">
-      <SectionHeading index="۰۴" title="اینستاگرام" note="قاب‌های سفر و روزمره، بدون امبد سنگین." />
+      <SectionHeading index="۰۴" title="اینستاگرام" note="قاب‌های سفر و روزمره." />
       <InstagramBand />
     </section>
 
@@ -178,14 +178,14 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
     <section class="py-14" aria-labelledby="support-teaser">
       <span id="support-teaser" class="sr-only">حمایت</span>
       <SectionHeading index="۰۵" title="حمایت از پروژه‌ها" href="/حمایت/" linkLabel="صفحه‌ی حمایت" />
-      <div class="reveal mt-6 grid gap-6 md:grid-cols-[7fr_5fr] md:items-center">
+      <div class="mt-6 grid gap-6 md:grid-cols-[7fr_5fr] md:items-center">
         <p class="max-w-2xl" style="color: var(--muted);">
           این پروژه‌ها را مستقل و با هزینه‌ی شخصی جلو می‌برم. اگر کاری به دردتان خورد و خواستید
-          در ادامه‌ی ساخت و نگه‌داری‌اش سهیم باشید، راهش این‌جاست — بی‌سر و صدا و بدون اصرار.
+          در ادامه‌ی ساخت و نگه‌داری‌اش سهیم باشید، راهش این‌جاست؛ بی‌سر و صدا.
         </p>
         <p>
           <a href="/حمایت/" class="quiet-link inline-flex min-h-11 items-center font-bold">
-            چطور می‌شود حمایت کرد ←
+            چطور می‌شود حمایت کرد
           </a>
         </p>
       </div>
@@ -195,7 +195,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
     <section class="pb-4" aria-labelledby="contact">
       <span id="contact" class="sr-only">ارتباط</span>
       <SectionHeading index="۰۶" title="ارتباط" href="/ارتباط/" linkLabel="صفحه‌ی ارتباط" />
-      <div class="reveal py-8">
+      <div class="py-8">
         <p class="text-lg">برای کار، همکاری، یا فقط سلام:</p>
         <p class="mt-2">
           <a href={`mailto:${SITE.email}`} class="quiet-link ltr font-mono text-xl font-bold sm:text-2xl">
@@ -208,7 +208,7 @@ const travels = (await getCollection("travels")).sort((a, b) => a.data.order - b
         <p class="mt-4" style="color: var(--muted);">
           سریع‌ترین راه ایمیل است؛ تلگرام هم هست:
           <a class="quiet-link ltr font-mono text-sm" href={SITE.telegram} target="_blank" rel="me noopener"> {SITE.telegramHandle}</a>
-          <span> — {PROFILE.availabilityNote}.</span>
+          <span> · {PROFILE.availabilityNote}.</span>
         </p>
       </div>
     </section>

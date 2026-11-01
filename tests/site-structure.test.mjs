@@ -214,17 +214,29 @@ describe("persian editorial slice", () => {
     }
     ok(blankCount > 0, "expected at least one target=_blank link");
   });
-  it("keeps reveal content visible when JavaScript is unavailable", () => {
-    // Progressive enhancement: .reveal must not be hidden by default. The
-    // hidden state is opt-in via html.js, which only the Base head script
-    // adds. This fails on the old `.reveal { opacity: 0 }` rule.
+  it("keeps every section readable without JavaScript", () => {
+    // Content must paint on first load, with or without JS. The scroll-reveal
+    // layer was removed as template motion; this guards against a
+    // hidden-by-default rule or an observer gate coming back.
     const base = readFileSync(`${ROOT}src/layouts/Base.astro`, "utf8");
     const css = readFileSync(`${ROOT}src/styles/global.css`, "utf8");
-    ok(base.includes('classList.add("js")'), "Base must mark JS-enabled documents");
-    ok(base.includes('"astro:before-swap"'), "the js class must survive view-transition swaps");
-    ok(css.includes("html.js .reveal"), "reveal hiding must be scoped to html.js");
-    ok(/^\.reveal\s*\{[^}]*opacity:\s*1/m.test(css), "reveal must default to visible");
-    ok(!/^\.reveal\s*\{[^}]*opacity:\s*0/m.test(css), "reveal must not be hidden by default");
+    ok(!/\.reveal\b/.test(css), "no reveal-hiding CSS may return to global.css");
+    ok(!base.includes("IntersectionObserver"), "Base must not gate content on scroll position");
+  });
+  it("ships copy without the em-dash tell", () => {
+    // R-02: the em dash is the loudest AI-prose tell, and Persian punctuation
+    // carries the same meaning. Scans shipped sources (not docs).
+    const files = [];
+    const walk = (dir) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = `${dir}/${entry.name}`;
+        if (entry.isDirectory()) walk(full);
+        else if (/\.(astro|md|ts)$/.test(entry.name)) files.push(full);
+      }
+    };
+    walk(`${ROOT}src`);
+    const offenders = files.filter((file) => readFileSync(file, "utf8").includes("\u2014"));
+    deepStrictEqual(offenders, [], "em dash found in shipped source");
   });
   it("re-applies the OS theme preference after view transitions", () => {
     // ClientRouter swaps in SSR data-theme="light"; the helper must fall back
@@ -264,11 +276,10 @@ describe("persian editorial slice", () => {
   });
 
   it("keeps social icon markup in one component", () => {
-    for (const file of [
-      "src/components/SocialIcons.astro",
-      "src/components/Footer.astro",
-      "src/components/InstagramBand.astro",
-    ]) {
+    // InstagramBand no longer renders a social icon: the band is a plain
+    // editorial invitation, so only the components that do show icons are
+    // checked for a second inline copy of the glyphs.
+    for (const file of ["src/components/SocialIcons.astro", "src/components/Footer.astro"]) {
       const raw = readFileSync(`${ROOT}${file}`, "utf8");
       ok(raw.includes("SocialIcon"), `${file} must use the shared SocialIcon`);
       ok(!raw.includes('<svg viewBox="0 0 24 24"'), `${file} must not inline social SVG markup`);

@@ -1,5 +1,5 @@
 ---
-/* کارت سفر — قاب پرتره ۴/۵ برای عکس‌های عمودی مالک.
+/* کارت سفر: قاب پرتره ۴/۵ برای عکس‌های عمودی مالک.
    هر عکس نقطه‌ی کانونی خودش را از imagePosition می‌گیرد تا چهره/سوژه
    در کراپ بریده نشود. بدون عکس: پنل تایپوگرافیک صادقانه. */
 import { render, type CollectionEntry } from "astro:content";
@@ -48,7 +48,7 @@ const position = data.imagePosition ?? "50% 50%";
     {
       data.instagramUrl && (
         <a href={data.instagramUrl} target="_blank" rel="noopener" class="quiet-link mt-3 inline-flex min-h-11 items-center text-sm">
-          دیدن عکس‌ها در اینستاگرام ↗
+          عکس‌های این سفر در اینستاگرام
         </a>
       )
     }
@@ -56,12 +56,6 @@ const position = data.imagePosition ?? "50% 50%";
 </article>
 
 <style>
-  .travel-img {
-    transition: transform 500ms var(--ease-out);
-  }
-  .travel-card:hover .travel-img {
-    transform: scale(1.04);
-  }
   .travel-note :global(p) {
     margin: 0;
   }

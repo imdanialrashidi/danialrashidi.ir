@@ -24,8 +24,8 @@ const box = size === "lg" ? "min-h-12 min-w-12" : "min-h-11 min-w-11";
           href={s.href}
           target={s.href.startsWith("mailto:") ? undefined : "_blank"}
           rel="me noopener"
-          aria-label={`${s.label} — ${s.handle}`}
-          title={`${s.label} — ${s.handle}`}
+          aria-label={`${s.label} · ${s.handle}`}
+          title={`${s.label} · ${s.handle}`}
           class:list={[
             "social-icon group inline-flex items-center gap-2 rounded-lg border px-3",
             box,
@@ -48,17 +48,12 @@ const box = size === "lg" ? "min-h-12 min-w-12" : "min-h-11 min-w-11";
   .social-icon {
     color: var(--ink);
     transition:
-      transform var(--dur-fast) var(--ease-out),
       border-color var(--dur-fast) var(--ease-out),
       color var(--dur-fast) var(--ease-out),
       background var(--dur-fast) var(--ease-out);
   }
   .social-icon:hover {
-    transform: translateY(-2px);
     border-color: var(--accent);
     color: var(--accent);
-  }
-  .social-icon:active {
-    transform: translateY(0);
   }
 </style>

@@ -54,27 +54,22 @@ const { data } = project;
           {
             data.liveUrl && (
               <a href={data.liveUrl} target="_blank" rel="noopener" class="inline-flex min-h-12 items-center rounded-lg px-6 font-bold" style="background: var(--action); color: var(--on-action);">
-                سایت زنده ↗
+                سایت زنده
               </a>
             )
           }
           {
             data.githubUrl && (
               <a href={data.githubUrl} target="_blank" rel="me noopener" class="quiet-link inline-flex min-h-12 items-center font-bold">
-                گیت‌هاب ↗
+                گیت‌هاب
               </a>
             )
           }
-          <a href="/پروژه‌ها/" class="quiet-link inline-flex min-h-12 items-center">برگشت به پروژه‌ها ←</a>
+          <a href="/پروژه‌ها/" class="quiet-link inline-flex min-h-12 items-center">برگشت به پروژه‌ها</a>
         </p>
-        <p class="mt-6" style="color: var(--muted);">— دانیال</p>
       </div>
       <aside class="photo-frame h-fit" aria-label="قاب پروژه">
         <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} eager sizes="(max-width: 768px) 100vw, 480px" />
-        <div class="border-t px-5 py-4" style="border-color: var(--border);">
-          <p class="text-sm font-bold">{data.faTitle ?? data.title}</p>
-          <p class="font-mono text-xs" style="color: var(--muted);">قاب پروژه · {data.year}</p>
-        </div>
       </aside>
     </section>
   </div>

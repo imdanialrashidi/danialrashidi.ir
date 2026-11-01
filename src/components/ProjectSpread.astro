@@ -9,7 +9,7 @@ const { data } = project;
 const detailHref = `/پروژه‌ها/${slug}/`;
 ---
 
-<article class="reveal grid gap-6 py-10 md:grid-cols-2 md:gap-10" aria-labelledby={`proj-${slug}`}>
+<article class="grid gap-6 py-10 md:grid-cols-2 md:gap-10" aria-labelledby={`proj-${slug}`}>
   <a
     href={detailHref}
     class:list={["photo-frame block", flip && "md:order-2"]}
@@ -37,12 +37,12 @@ const detailHref = `/پروژه‌ها/${slug}/`;
     </ul>
     <p class="mt-5 flex flex-wrap items-center gap-5">
       <a href={detailHref} class="inline-flex min-h-11 items-center font-bold" style="color: var(--accent);">
-        خواندن درباره‌ی پروژه ←
+        درباره‌ی پروژه
       </a>
       {
         data.liveUrl && (
           <a href={data.liveUrl} target="_blank" rel="noopener" class="quiet-link ltr inline-flex min-h-11 items-center font-mono text-sm">
-            {data.liveUrl.replace("https://", "")} ↗
+            {data.liveUrl.replace("https://", "")}
           </a>
         )
       }

@@ -1,22 +1,16 @@
 ---
 import { SITE } from "../config/site";
-import SocialIcon from "./SocialIcon.astro";
 ---
 
 <div
-  class="reveal mt-8 grid gap-6 rounded-xl border p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center"
+  class="mt-8 grid gap-6 rounded-lg border p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center"
   style="border-color: var(--border); background: var(--surface);"
 >
   <div>
-    <p class="flex items-center gap-3 text-xl font-extrabold">
-      <span aria-hidden="true" class="grid size-10 shrink-0 place-items-center rounded-lg" style="background: var(--action); color: var(--on-action);">
-        <SocialIcon id="instagram" class="size-5" />
-      </span>
-      قاب‌های سفر این‌جاست؛ کاملش در اینستاگرام
-    </p>
+    <p class="text-xl font-extrabold">قاب‌های سفر این‌جاست؛ کاملش در اینستاگرام</p>
     <p class="mt-2 max-w-2xl" style="color: var(--muted);">
-      سفرهایم را سبک نگه می‌دارم؛ چند یادداشت و چند قاب. مجموعه‌ی کامل عکس‌ها در اینستاگرام است —
-      بدون امبد سنگین، فقط یک دعوت ساده: <span class="ltr font-mono text-sm">{SITE.instagramHandle}</span>
+      سفرهایم را سبک نگه می‌دارم؛ چند یادداشت و چند قاب. مجموعه‌ی کامل عکس‌ها در اینستاگرام است،
+      با نشانی <span class="ltr font-mono text-sm">{SITE.instagramHandle}</span>.
     </p>
   </div>
   <p>
@@ -24,10 +18,10 @@ import SocialIcon from "./SocialIcon.astro";
       href={SITE.instagram}
       target="_blank"
       rel="me noopener"
-      class="btn-primary inline-flex min-h-12 items-center gap-2 rounded-lg px-6 font-bold"
+      class="btn-primary inline-flex min-h-12 items-center rounded-lg px-6 font-bold"
       style="background: var(--action); color: var(--on-action);"
     >
-      دنبال کردن در اینستاگرام ↗
+      دنبال کردن در اینستاگرام
     </a>
   </p>
 </div>

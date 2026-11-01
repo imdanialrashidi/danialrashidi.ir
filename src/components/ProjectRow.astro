@@ -9,7 +9,7 @@ const { data } = project;
 const detailHref = `/پروژه‌ها/${slug}/`;
 ---
 
-<article class="reveal grid gap-4 border-t py-6 sm:grid-cols-[190px_1fr_auto] sm:items-center sm:gap-6" style="border-color: var(--border);" aria-labelledby={`row-${slug}`}>
+<article class="grid gap-4 border-t py-6 sm:grid-cols-[190px_1fr_auto] sm:items-center sm:gap-6" style="border-color: var(--border);" aria-labelledby={`row-${slug}`}>
   <a href={detailHref} class="photo-frame row-thumb block overflow-hidden" tabindex="-1" aria-hidden="true">
     <ProjectImage image={data.image} imageAlt={data.imageAlt} imageWidth={data.imageWidth} imageHeight={data.imageHeight} title={data.title} faTitle={data.faTitle} monogram={data.monogram} sizes="(max-width: 640px) 100vw, 190px" />
   </a>
@@ -23,12 +23,12 @@ const detailHref = `/پروژه‌ها/${slug}/`;
   </div>
   <p class="flex flex-wrap items-center gap-4">
     <a href={detailHref} class="inline-flex min-h-11 items-center text-[0.95rem] font-bold" style="color: var(--accent);">
-      جزئیات ←
+      صفحه‌ی پروژه
     </a>
     {
       data.liveUrl && (
         <a href={data.liveUrl} target="_blank" rel="noopener" class="quiet-link ltr inline-flex min-h-11 items-center font-mono text-xs">
-          سایت زنده ↗
+          سایت زنده
         </a>
       )
     }

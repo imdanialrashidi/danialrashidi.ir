@@ -50,7 +50,7 @@ const schema = [
     inLanguage: SITE.lang,
   },
 ];
-const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} | ${SITE.name}`;
+const fullTitle = path === "/" ? `${SITE.name} · ${SITE.tagline}` : `${title} | ${SITE.name}`;
 ---
 
 <!doctype html>
@@ -88,7 +88,6 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
     <meta name="theme-color" content="#131511" media="(prefers-color-scheme: dark)" />
 
     <script is:inline>
-      try { document.documentElement.classList.add("js"); } catch {}
       try {
         const saved = localStorage.getItem("dr-theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -112,10 +111,9 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
     </main>
     <Footer />
     <script is:inline>
-      // Shared UI behavior — safe across Astro view-transition swaps.
-      // The document (and its listeners) survives swaps; each new page
-      // re-executes this script, so registration is guarded and page-scoped
-      // state (reveal observer, toggle pressed-state) re-inits every time.
+      // Shared UI behavior, safe across Astro view-transition swaps. The
+      // document keeps its listeners; each new page re-executes this script,
+      // so registration is guarded and toggle state re-inits every time.
       function drApplySavedTheme() {
         // View-transition swaps bring in the incoming page's <html> attributes
         // (SSR default data-theme="light"), so re-assert the saved choice.
@@ -135,39 +133,16 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
         var dark = document.documentElement.dataset.theme === "dark";
         document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
           btn.setAttribute("aria-pressed", String(dark));
-          var label = btn.querySelector("[data-theme-label]");
-          if (label) label.textContent = dark ? "روشن" : "تیره";
         });
-      }
-      function drReveal() {
-        var els = document.querySelectorAll(".reveal:not(.is-visible)");
-        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (reduce || !("IntersectionObserver" in window)) {
-          els.forEach(function (el) { el.classList.add("is-visible"); });
-          return;
-        }
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              e.target.classList.add("is-visible");
-              io.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-        els.forEach(function (el) { io.observe(el); });
       }
       function drInit() {
         drApplySavedTheme();
         drSyncThemeToggle();
-        drReveal();
       }
-      // Theme toggle + mobile menu + card copy — the only client JS on the site (~2KB).
+      // Theme toggle + mobile menu + card copy: the only client JS on the site (~1KB).
       if (!window.__drBound) {
         window.__drBound = true;
         document.addEventListener("astro:page-load", drInit);
-        document.addEventListener("astro:before-swap", (event) => {
-          event.newDocument.documentElement.classList.add("js");
-        });
         document.addEventListener("click", (event) => {
         const toggle = event.target instanceof Element ? event.target.closest("[data-theme-toggle]") : null;
         if (toggle) {
@@ -178,8 +153,6 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
             localStorage.setItem("dr-theme", next);
           } catch {}
           toggle.setAttribute("aria-pressed", String(next === "dark"));
-          const label = toggle.querySelector("[data-theme-label]");
-          if (label) label.textContent = next === "dark" ? "روشن" : "تیره";
           return;
         }
         const menuBtn = event.target instanceof Element ? event.target.closest("[data-menu-button]") : null;
@@ -197,7 +170,7 @@ const fullTitle = path === "/" ? `${SITE.name} — ${SITE.tagline}` : `${title} 
             if (label) label.textContent = "کپی شد ✓";
             const card = copyBtn.closest(".card-block");
             const status = card ? card.querySelector("[data-copy-status]") : null;
-            if (status) status.textContent = "شماره کارت در حافظه است — موقع انتقال، نام و مبلغ را دوباره چک کنید.";
+            if (status) status.textContent = "شماره کارت در حافظه است؛ موقع انتقال، نام و مبلغ را دوباره چک کنید.";
             window.setTimeout(() => { if (label) label.textContent = "کپی شماره"; }, 2500);
           };
           if (navigator.clipboard && navigator.clipboard.writeText) {
